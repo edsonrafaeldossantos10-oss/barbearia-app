@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#0d0d0d">
+<meta name="robots" content="noindex">
+<title>Agendar horário</title>
+<style>
+:root{
+  --bg:#0d0d0d; --surface:#1a1a19; --surface-2:#232322; --surface-3:#2c2c2a;
+  --text:#ffffff; --text-2:#c3c2b7; --muted:#898781; --hair:rgba(255,255,255,0.10);
+  --in:#3987e5; --in-soft:rgba(57,135,229,0.14); --bad:#d03b3b; --good:#0ca30c;
+  --r-sm:10px; --r-md:14px; --r-lg:20px; --r-xl:26px; --sp:16px;
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --safe-b:env(safe-area-inset-bottom,0px); --safe-t:env(safe-area-inset-top,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;min-height:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16px;line-height:1.4;-webkit-font-smoothing:antialiased}
+button,input,textarea{font-family:inherit;font-size:inherit;color:inherit}
+button{border:0;background:none;cursor:pointer}
+input,textarea{outline:none}
+.hidden{display:none !important}
+#app{max-width:480px;margin:0 auto;min-height:100vh;padding:calc(var(--safe-t) + 22px) 18px calc(30px + var(--safe-b));display:flex;flex-direction:column}
+.brand{text-align:center;margin-bottom:22px}
+.brand .logo{width:56px;height:56px;border-radius:18px;background:var(--surface);border:1px solid var(--hair);display:grid;place-items:center;margin:0 auto 12px}
+.brand .logo svg{width:26px;height:26px;color:var(--in)}
+.brand h1{font-size:19px;font-weight:750;margin:0 0 4px}
+.brand p{font-size:13.5px;color:var(--muted);margin:0}
+.step-title{font-size:15px;font-weight:700;margin:0 0 14px}
+.card{background:var(--surface);border:1px solid var(--hair);border-radius:var(--r-lg);padding:16px}
+.card + .card{margin-top:10px}
+.svc{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--surface);
+  border:1px solid var(--hair);border-radius:var(--r-lg);padding:16px;margin-bottom:10px;transition:.12s}
+.svc:active{background:var(--surface-2);transform:scale(.98)}
+.svc .nm{flex:1;min-width:0;font-size:15px;font-weight:700}
+.svc .du{font-size:12px;color:var(--muted);margin-top:2px}
+.svc .pr{font-size:16px;font-weight:800;color:var(--in);flex:none}
+.dayrow{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 10px;margin:0 -2px 6px;scrollbar-width:none}
+.dayrow::-webkit-scrollbar{display:none}
+.daychip{flex:none;width:58px;padding:12px 0;border-radius:var(--r-md);background:var(--surface);border:1px solid var(--hair);
+  text-align:center;font-weight:700}
+.daychip .d1{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.daychip .d2{font-size:18px;margin-top:2px}
+.daychip.on{background:var(--in);border-color:var(--in);color:#fff}
+.daychip.on .d1{color:rgba(255,255,255,.8)}
+.daychip[disabled]{opacity:.3;pointer-events:none}
+.hgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.hchip{padding:14px 0;border-radius:var(--r-md);background:var(--surface);border:1px solid var(--hair);
+  font-weight:700;font-size:15px;font-variant-numeric:tabular-nums}
+.hchip:active{background:var(--surface-2)}
+.field{margin-top:16px}
+.field:first-child{margin-top:0}
+.field>label{display:block;font-size:11.5px;letter-spacing:.7px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:8px}
+.inp{width:100%;background:var(--surface-2);border:1px solid var(--hair);border-radius:var(--r-md);padding:14px;font-size:15px;color:var(--text)}
+.inp::placeholder{color:var(--muted)}
+.btn{width:100%;border-radius:var(--r-lg);padding:16px;font-size:15px;font-weight:750;letter-spacing:.3px;
+  display:flex;align-items:center;justify-content:center;gap:9px;margin-top:18px;transition:.1s}
+.btn:active{transform:scale(.98)}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.btn-primary{background:var(--in);color:#fff}
+.btn-ghost{background:var(--surface-2);color:var(--text-2);font-weight:650}
+.hint{font-size:12.5px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.5}
+.err{background:rgba(208,59,59,.12);border:1px solid rgba(208,59,59,.35);color:#f0a0a0;border-radius:var(--r-md);padding:12px 14px;font-size:13px;margin:0 0 14px;line-height:1.45}
+.kv{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--hair);font-size:14px}
+.kv:last-child{border-bottom:0}
+.kv .k{color:var(--muted)}
+.kv .v{font-weight:700}
+.center-ic{width:64px;height:64px;border-radius:50%;background:rgba(12,163,12,.14);color:var(--good);
+  display:grid;place-items:center;margin:6px auto 18px}
+.center-ic svg{width:30px;height:30px}
+.topline{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.back{width:34px;height:34px;border-radius:50%;background:var(--surface-2);display:grid;place-items:center;flex:none;color:var(--text-2)}
+.spin{width:26px;height:26px;border:3px solid var(--surface-3);border-top-color:var(--in);border-radius:50%;
+  animation:sp .7s linear infinite;margin:40px auto}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="brand">
+    <div class="logo"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 46 L32 18 L50 46"/></svg></div>
+    <h1 id="brandNome">Barbearia</h1>
+    <p id="brandSub">Agende seu horário</p>
+  </div>
+  <div id="conteudo"><div class="spin"></div></div>
+</div>
+
+<script>
+"use strict";
+var AGENDA_SUPA = {
+  url: 'https://srmcdhvmbafrkhfhxsfx.supabase.co',
+  anonKey: 'sb_publishable_jTxdyF6R4TDzc6FKAge5eg_5gqZPvRG'
+};
+var DIAS_ABREV = ['dom','seg','ter','qua','qui','sex','sáb'];
+var MESES_ABREV = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+
+function el(id) { return document.getElementById(id); }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function brl(v) { var n = Math.round((Number(v) || 0) * 100) / 100; return 'R$ ' + n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+function isoLocal(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+function soDigitos(v) { return String(v == null ? '' : v).replace(/\D/g, ''); }
+
+async function rpc(nome, params) {
+  var r = await fetch(AGENDA_SUPA.url + '/rest/v1/rpc/' + nome, {
+    method: 'POST',
+    headers: { 'apikey': AGENDA_SUPA.anonKey, 'Authorization': 'Bearer ' + AGENDA_SUPA.anonKey, 'Content-Type': 'application/json' },
+    body: JSON.stringify(params)
+  });
+  var txt = await r.text();
+  var json = null; try { json = txt ? JSON.parse(txt) : null; } catch (e) { json = null; }
+  if (!r.ok) { throw new Error((json && json.message) || 'Não foi possível completar. Tente novamente.'); }
+  return json;
+}
+
+function getSlug() {
+  var path = location.pathname.replace(/\/+$/, '');
+  var m = path.match(/\/agendar\/([^\/]+)/);
+  if (m) return decodeURIComponent(m[1]);
+  var qs = new URLSearchParams(location.search);
+  return qs.get('slug') || '';
+}
+
+var estado = { slug: getSlug(), dados: null, servico: null, data: null, hora: null,
+  nome: '', whatsapp: '', observacao: '' };
+
+function erroTela(msg) {
+  el('conteudo').innerHTML = '<div class="card" style="text-align:center">' +
+    '<p style="font-size:14.5px;color:var(--text-2);line-height:1.6;margin:0">' + esc(msg) + '</p></div>';
+}
+
+async function iniciar() {
+  if (!estado.slug) { erroTela('Link inválido. Peça ao seu barbeiro o link correto de agendamento.'); return; }
+  try {
+    estado.dados = await rpc('agenda_publica', { p_slug: estado.slug });
+  } catch (e) {
+    erroTela('Não foi possível carregar esta página agora. Verifique sua internet e tente novamente.');
+    return;
+  }
+  el('brandNome').textContent = estado.dados.barbearia.nome || 'Barbearia';
+  if (!estado.dados.agendamento_ativo) {
+    erroTela('O agendamento online desta barbearia está desativado no momento. Entre em contato diretamente com o barbeiro.');
+    return;
+  }
+  if (!estado.dados.servicos || !estado.dados.servicos.length) {
+    erroTela('Nenhum serviço disponível para agendamento no momento.');
+    return;
+  }
+  telaServicos();
+}
+
+function topline(titulo, aoVoltar) {
+  return '<div class="topline"><button class="back" id="btnVoltar" aria-label="Voltar">' +
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>' +
+    '<h2 class="step-title" style="margin:0">' + esc(titulo) + '</h2></div>';
+}
+
+function telaServicos() {
+  el('brandSub').textContent = 'Escolha o serviço';
+  el('conteudo').innerHTML = estado.dados.servicos.map(function (s) {
+    return '<button class="svc" data-svc="' + esc(s.id) + '">' +
+      '<span style="flex:1;min-width:0"><span class="nm">' + esc(s.nome) + '</span>' +
+      '<div class="du">' + s.duracao_min + ' minutos</div></span>' +
+      '<span class="pr">' + brl(s.valor) + '</span></button>';
+  }).join('');
+  document.querySelectorAll('[data-svc]').forEach(function (b) {
+    b.onclick = function () {
+      estado.servico = estado.dados.servicos.find(function (s) { return s.id === b.dataset.svc; });
+      telaData();
+    };
+  });
+}
+
+function telaData() {
+  el('brandSub').textContent = estado.servico.nome + ' · ' + brl(estado.servico.valor);
+  var dias = [];
+  for (var i = 0; i < 21; i++) { var d = new Date(); d.setDate(d.getDate() + i); dias.push(d); }
+  var horarios = estado.dados.horarios || {};
+  var html = topline('Escolha a data') +
+    '<div class="dayrow" id="dayrow">' + dias.map(function (d) {
+      var dow = d.getDay();
+      var temJanela = Array.isArray(horarios[String(dow)]) && horarios[String(dow)].length > 0;
+      return '<button class="daychip" data-dia="' + isoLocal(d) + '"' + (temJanela ? '' : ' disabled') + '>' +
+        '<div class="d1">' + DIAS_ABREV[dow] + '</div><div class="d2">' + d.getDate() + '</div></button>';
+    }).join('') + '</div>' +
+    '<div id="horariosWrap"></div>';
+  el('conteudo').innerHTML = html;
+  el('btnVoltar').onclick = telaServicos;
+  document.querySelectorAll('[data-dia]').forEach(function (b) {
+    b.onclick = function () {
+      document.querySelectorAll('[data-dia]').forEach(function (x) { x.classList.toggle('on', x === b); });
+      estado.data = b.dataset.dia;
+      carregarHorarios();
+    };
+  });
+}
+
+async function carregarHorarios() {
+  var wrap = el('horariosWrap');
+  wrap.innerHTML = '<div class="spin"></div>';
+  var lista = [];
+  try {
+    lista = await rpc('horarios_disponiveis', { p_slug: estado.slug, p_data: estado.data, p_servico_id: estado.servico.id });
+  } catch (e) {
+    wrap.innerHTML = '<p class="hint">Não foi possível carregar os horários. Tente novamente.</p>';
+    return;
+  }
+  if (!lista.length) { wrap.innerHTML = '<p class="hint">Nenhum horário disponível neste dia. Escolha outra data.</p>'; return; }
+  wrap.innerHTML = '<div class="hgrid" id="hgrid">' + lista.map(function (h) {
+    return '<button class="hchip" data-hora="' + esc(h) + '">' + esc(h) + '</button>';
+  }).join('') + '</div>';
+  document.querySelectorAll('[data-hora]').forEach(function (b) {
+    b.onclick = function () { estado.hora = b.dataset.hora; telaDados(); };
+  });
+}
+
+function telaDados() {
+  el('brandSub').textContent = estado.servico.nome + ' · ' + dataFmt(estado.data) + ' às ' + estado.hora;
+  el('conteudo').innerHTML = topline('Seus dados') +
+    '<div id="ddErro"></div>' +
+    '<div class="field"><label>Nome</label><input class="inp" id="ddNome" placeholder="Seu nome" value="' + esc(estado.nome) + '"></div>' +
+    '<div class="field"><label>WhatsApp</label><input class="inp" id="ddWhats" type="tel" inputmode="tel" placeholder="(31) 90000-0000" value="' + esc(estado.whatsapp) + '"></div>' +
+    '<div class="field"><label>Observação (opcional)</label><input class="inp" id="ddObs" maxlength="140" placeholder="ex.: prefiro corte mais curto" value="' + esc(estado.observacao) + '"></div>' +
+    '<button class="btn btn-primary" id="btnConfirmar">CONFIRMAR AGENDAMENTO</button>';
+  el('btnVoltar').onclick = telaData;
+  el('ddWhats').oninput = function (e) {
+    var d = soDigitos(e.target.value).slice(0, 11);
+    var v = !d ? '' : d.length <= 2 ? '(' + d : d.length <= 6 ? '(' + d.slice(0, 2) + ') ' + d.slice(2)
+      : d.length <= 10 ? '(' + d.slice(0, 2) + ') ' + d.slice(2, 6) + '-' + d.slice(6) : '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7);
+    e.target.value = v;
+  };
+  el('btnConfirmar').onclick = confirmar;
+}
+
+function dataFmt(iso) {
+  var p = iso.split('-'); var d = new Date(+p[0], +p[1] - 1, +p[2]);
+  return String(d.getDate()).padStart(2, '0') + ' ' + MESES_ABREV[d.getMonth()];
+}
+
+async function confirmar() {
+  var nome = el('ddNome').value.trim();
+  var whats = soDigitos(el('ddWhats').value);
+  var obs = el('ddObs').value.trim();
+  if (nome.length < 2) { el('ddErro').innerHTML = '<div class="err">Informe seu nome.</div>'; return; }
+  if (whats.length < 10) { el('ddErro').innerHTML = '<div class="err">Informe um WhatsApp válido, com DDD.</div>'; return; }
+  estado.nome = nome; estado.whatsapp = el('ddWhats').value.trim(); estado.observacao = obs;
+
+  var btn = el('btnConfirmar'); btn.disabled = true; btn.textContent = 'ENVIANDO…';
+  try {
+    var r = await rpc('criar_agendamento_publico', {
+      p_slug: estado.slug, p_servico_id: estado.servico.id, p_data: estado.data, p_hora: estado.hora + ':00',
+      p_cliente_nome: nome, p_cliente_whatsapp: estado.whatsapp, p_observacao: obs || null
+    });
+    telaConfirmado(r);
+  } catch (e) {
+    el('ddErro').innerHTML = '<div class="err">' + esc(e.message) + '</div>';
+    btn.disabled = false; btn.textContent = 'CONFIRMAR AGENDAMENTO';
+    if (/reservado/i.test(e.message)) setTimeout(telaData, 1600);
+  }
+}
+
+function telaConfirmado(r) {
+  el('brandSub').textContent = 'Tudo certo!';
+  el('conteudo').innerHTML =
+    '<div class="center-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>' +
+    '<h2 class="step-title" style="text-align:center">Agendamento confirmado</h2>' +
+    '<div class="card">' +
+      '<div class="kv"><span class="k">Barbearia</span><span class="v">' + esc(r.barbearia) + '</span></div>' +
+      '<div class="kv"><span class="k">Serviço</span><span class="v">' + esc(r.servico) + '</span></div>' +
+      '<div class="kv"><span class="k">Valor</span><span class="v">' + brl(r.valor) + '</span></div>' +
+      '<div class="kv"><span class="k">Data</span><span class="v">' + esc(r.data) + '</span></div>' +
+      '<div class="kv"><span class="k">Horário</span><span class="v">' + esc(r.hora) + '</span></div>' +
+      '<div class="kv"><span class="k">Cliente</span><span class="v">' + esc(r.cliente) + '</span></div>' +
+    '</div>' +
+    '<p class="hint">O barbeiro vai confirmar seu horário em breve. Guarde a data e o horário acima.</p>' +
+    '<button class="btn btn-ghost" id="btnNovo">NOVO AGENDAMENTO</button>';
+  el('btnNovo').onclick = function () {
+    estado.servico = null; estado.data = null; estado.hora = null; estado.observacao = '';
+    telaServicos();
+  };
+}
+
+iniciar();
+</script>
+</body>
+</html>
