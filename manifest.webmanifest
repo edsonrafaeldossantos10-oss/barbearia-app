@@ -5,7 +5,7 @@
   "lang": "pt-BR",
   "dir": "ltr",
   "start_url": "./index.html",
-  "scope": "./",
+  "scope": "./index.html",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0d0d0d",
