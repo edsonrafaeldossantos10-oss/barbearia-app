@@ -135,7 +135,11 @@ async function iniciar() {
   try {
     estado.dados = await rpc('agenda_publica', { p_slug: estado.slug });
   } catch (e) {
-    erroTela('Não foi possível carregar esta página agora. Verifique sua internet e tente novamente.');
+    if (/não encontrada/i.test(e.message)) {
+      erroTela('Este link de agendamento não existe ou está incorreto. Confira com o seu barbeiro.');
+    } else {
+      erroTela('Não foi possível carregar esta página agora. Verifique sua internet e tente novamente.');
+    }
     return;
   }
   el('brandNome').textContent = estado.dados.barbearia.nome || 'Barbearia';
