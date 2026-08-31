@@ -2515,11 +2515,12 @@ const UI = (() => {
 
     await carregarAgenda();
     const hojeIso = hoje();
-    const per = Periodos.resolver('semana', null);
+    const fimSemana = addDias(hojeIso, 6); // "Semana" da agenda olha pra frente (próximos 7 dias),
+                                            // diferente do "semana" dos relatórios financeiros (que olha pra trás)
 
     let lista = agendaCache.lista;
     if (estado.segAgenda === 'hoje') lista = lista.filter(a => diaDe(a.inicio_em) === hojeIso);
-    else if (estado.segAgenda === 'semana') lista = lista.filter(a => { const d = diaDe(a.inicio_em); return d >= per.de && d <= per.ate; });
+    else if (estado.segAgenda === 'semana') lista = lista.filter(a => { const d = diaDe(a.inicio_em); return d >= hojeIso && d <= fimSemana; });
     else lista = lista.filter(a => diaDe(a.inicio_em) >= hojeIso || ['pendente', 'confirmado'].includes(a.status));
 
     const resumo = { pendente: 0, confirmado: 0, concluido: 0 };
