@@ -958,7 +958,10 @@ const AGENDA_SUPA = {
   url: 'https://srmcdhvmbafrkhfhxsfx.supabase.co',
   anonKey: 'sb_publishable_jTxdyF6R4TDzc6FKAge5eg_5gqZPvRG'
 };
-const SITE_BASE = 'https://cozy-pudding-33ab06.netlify.app';
+/** Base do site calculada a partir de onde o app está rodando agora, em vez
+ *  de fixa — assim o link do cliente nunca aponta pro endereço errado depois
+ *  de trocar de hospedagem (já aconteceu uma vez: Netlify -> GitHub Pages). */
+const SITE_BASE = location.origin + location.pathname.replace(/\/[^/]*$/, '');
 const KA = { sessao: 'gtm.agenda.sessao.v1' };
 
 const MESES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
