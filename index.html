@@ -1279,6 +1279,9 @@ const AgendaCloud = (() => {
     try { await req('/auth/v1/logout', { method: 'POST' }); } catch (e) {}
     atual = null; try { localStorage.removeItem(KA.sessao); } catch (e) {}
   }
+  async function recuperarSenha(email) {
+    await req('/auth/v1/recover', { method: 'POST', body: { email: (email || '').trim().toLowerCase() } });
+  }
 
   function ativa() { return atual; }
   function vinculada() { return !!(atual && atual.barbearia_id); }
@@ -1286,7 +1289,7 @@ const AgendaCloud = (() => {
   function slug() { return atual && atual.slug; }
   function linkPublico() { return atual && atual.slug ? (SITE_BASE + '/agendar/' + atual.slug) : ''; }
 
-  return { req, criar, entrar, restaurar, sair, ativa, vinculada, barbeariaId, slug, linkPublico };
+  return { req, criar, entrar, restaurar, sair, recuperarSenha, ativa, vinculada, barbeariaId, slug, linkPublico };
 })();
 
 /* ------------------------------------------------------------------
@@ -2961,11 +2964,24 @@ const AgendaForms = (() => {
         ` : ''}
         <div class="field" style="margin-top:${modo === 'criar' ? '0' : '16px'}"><label>E-mail</label><input class="inp" id="agEmail" type="email" value="${esc(emailPadrao)}" placeholder="voce@email.com"></div>
         <div class="field"><label>Senha</label><input class="inp" id="agSenha" type="password" placeholder="mínimo 6 caracteres"></div>
+        ${modo === 'entrar' ? '<button type="button" class="disclose" id="agEsqueci" style="margin-top:10px">Esqueci minha senha</button>' : ''}
         <div id="agLoginMsg"></div>
         <button class="btn btn-primary" id="agSubmit">${modo === 'criar' ? 'CRIAR AGENDA' : 'ENTRAR'}</button>
         <button class="btn btn-ghost btn-sm" id="agCancelar">Cancelar</button>`;
       el('agModo').onclick = e => { const b = e.target.closest('[data-m]'); if (!b) return; modo = b.dataset.m; render(); };
       el('agCancelar').onclick = fecharSheets;
+      const bEsq = el('agEsqueci');
+      if (bEsq) bEsq.onclick = async () => {
+        const email = el('agEmail').value.trim();
+        if (!email) { el('agLoginMsg').innerHTML = '<p class="hint" style="color:var(--bad)">Digite o e-mail primeiro.</p>'; return; }
+        bEsq.disabled = true;
+        try {
+          await AgendaCloud.recuperarSenha(email);
+          el('agLoginMsg').innerHTML = '<p class="hint" style="color:var(--good)">Se esse e-mail tiver conta, enviamos um link para redefinir a senha. Confira a caixa de entrada (e o spam).</p>';
+        } catch (err) {
+          el('agLoginMsg').innerHTML = '<p class="hint" style="color:var(--bad)">' + esc(err.message) + '</p>';
+        } finally { bEsq.disabled = false; }
+      };
       el('agSubmit').onclick = async () => {
         const email = el('agEmail').value, senha = el('agSenha').value;
         const btn = el('agSubmit'); btn.disabled = true;
