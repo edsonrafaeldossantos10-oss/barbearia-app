@@ -11,7 +11,7 @@
    Sem isso os celulares continuam abrindo a versão antiga do cache.
    ============================================================ */
 
-const CACHE = 'barbearia-v2.3.4';
+const CACHE = 'barbearia-v2.5.0';
 
 const SHELL = [
   './',
@@ -23,7 +23,10 @@ const SHELL = [
   './icons/maskable-192.png',
   './icons/maskable-512.png',
   './icons/apple-touch-icon.png',
-  './icons/favicon-32.png'
+  './icons/favicon-32.png',
+  // fotos dos serviços e produtos (aparecem mesmo sem internet)
+  ...['corte', 'barba', 'corte-barba', 'sobrancelha', 'servico', 'refrigerante', 'energetico', 'agua', 'cerveja',
+      'bone', 'camiseta', 'bermuda', 'calca', 'pomada', 'outros', 'fundo'].map(f => './fotos/' + f + '.jpg')
 ];
 
 self.addEventListener('install', ev => {

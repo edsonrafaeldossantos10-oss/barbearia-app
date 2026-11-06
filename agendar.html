@@ -3,14 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
-<meta name="theme-color" content="#0d0d0d">
+<meta name="theme-color" content="#100d0b">
 <meta name="robots" content="noindex">
 <title>Agendar horário</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@600&display=swap">
 <style>
 :root{
-  --bg:#0d0d0d; --surface:#1a1a19; --surface-2:#232322; --surface-3:#2c2c2a;
-  --text:#ffffff; --text-2:#c3c2b7; --muted:#898781; --hair:rgba(255,255,255,0.10);
-  --in:#3987e5; --in-soft:rgba(57,135,229,0.14); --bad:#d03b3b; --good:#0ca30c;
+  --bg:#100d0b; --surface:#1b1713; --surface-2:#25201b; --surface-3:#312a22;
+  --text:#fbf6ee; --text-2:#d2c8b8; --muted:#978c7c; --hair:rgba(255,236,210,0.10);
+  --in:#d6a84f; --in-soft:rgba(214,168,79,0.14); --bad:#d03b3b; --good:#0ca30c;
   --r-sm:10px; --r-md:14px; --r-lg:20px; --r-xl:26px; --sp:16px;
   --font:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --safe-b:env(safe-area-inset-bottom,0px); --safe-t:env(safe-area-inset-top,0px);
@@ -24,8 +25,10 @@ input,textarea{outline:none}
 .hidden{display:none !important}
 #app{max-width:480px;margin:0 auto;min-height:100vh;padding:calc(var(--safe-t) + 22px) 18px calc(30px + var(--safe-b));display:flex;flex-direction:column}
 .brand{text-align:center;margin-bottom:22px}
-.brand .logo{width:56px;height:56px;border-radius:18px;background:var(--surface);border:1px solid var(--hair);display:grid;place-items:center;margin:0 auto 12px}
-.brand .logo svg{width:26px;height:26px;color:var(--in)}
+.brand .logo{width:84px;height:84px;border-radius:24px;overflow:hidden;margin:0 auto 14px;box-shadow:0 12px 32px rgba(0,0,0,.55)}
+.brand::after{content:"";display:block;width:84px;height:5px;border-radius:3px;margin:14px auto 0;background:repeating-linear-gradient(-45deg,#c8342b 0 8px,#f5efe6 8px 16px,#24508f 16px 24px,#f5efe6 24px 32px)}
+.brand h1{font-family:"Oswald","Arial Narrow",Impact,sans-serif;text-transform:uppercase;letter-spacing:1.2px;font-weight:600}
+.brand .logo svg{width:100%;height:100%;display:block}
 .brand h1{font-size:19px;font-weight:750;margin:0 0 4px}
 .brand p{font-size:13.5px;color:var(--muted);margin:0}
 .step-title{font-size:15px;font-weight:700;margin:0 0 14px}
@@ -43,8 +46,8 @@ input,textarea{outline:none}
   text-align:center;font-weight:700}
 .daychip .d1{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
 .daychip .d2{font-size:18px;margin-top:2px}
-.daychip.on{background:var(--in);border-color:var(--in);color:#fff}
-.daychip.on .d1{color:rgba(255,255,255,.8)}
+.daychip.on{background:linear-gradient(180deg,#f1d08a,#d6a84f 55%,#b0802f);border-color:#d6a84f;color:#1a1209}
+.daychip.on .d1{color:rgba(26,18,9,.75)}
 .daychip[disabled]{opacity:.3;pointer-events:none}
 .hgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .hchip{padding:14px 0;border-radius:var(--r-md);background:var(--surface);border:1px solid var(--hair);
@@ -59,7 +62,7 @@ input,textarea{outline:none}
   display:flex;align-items:center;justify-content:center;gap:9px;margin-top:18px;transition:.1s}
 .btn:active{transform:scale(.98)}
 .btn[disabled]{opacity:.4;pointer-events:none}
-.btn-primary{background:var(--in);color:#fff}
+.btn-primary{background:linear-gradient(180deg,#f1d08a,#d6a84f 55%,#b0802f);color:#1a1209}
 .btn-ghost{background:var(--surface-2);color:var(--text-2);font-weight:650}
 .hint{font-size:12.5px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.5}
 .err{background:rgba(208,59,59,.12);border:1px solid rgba(208,59,59,.35);color:#f0a0a0;border-radius:var(--r-md);padding:12px 14px;font-size:13px;margin:0 0 14px;line-height:1.45}
@@ -80,7 +83,7 @@ input,textarea{outline:none}
 <body>
 <div id="app">
   <div class="brand">
-    <div class="logo"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 46 L32 18 L50 46"/></svg></div>
+    <div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"> <defs> <radialGradient id="lgBg" cx="50%" cy="38%" r="75%"> <stop offset="0" stop-color="#2a211a"/> <stop offset="1" stop-color="#0e0b09"/> </radialGradient> <linearGradient id="lgOuro" x1="0" y1="0" x2="0" y2="1"> <stop offset="0" stop-color="#f1d08a"/> <stop offset=".55" stop-color="#d6a84f"/> <stop offset="1" stop-color="#a87a2c"/> </linearGradient> <linearGradient id="lgAco" x1="0" y1="0" x2="0" y2="1"> <stop offset="0" stop-color="#f4f2ee"/> <stop offset="1" stop-color="#a9a6a0"/> </linearGradient> </defs> <rect rx="112" fill="url(#lgBg)"/> <circle cx="256" cy="256" r="214" fill="none" stroke="url(#lgOuro)" stroke-width="6" opacity=".55"/> <g id="emblema"> <!-- tesoura (atrás, apontando pra cima/direita) --> <g transform="translate(256 262) rotate(-45)"> <path d="M0 -9 Q105 -34 200 -24 Q112 -6 0 11 Z" fill="url(#lgAco)"/> <path d="M0 9 Q105 34 200 24 Q112 6 0 -11 Z" fill="url(#lgAco)" opacity=".92"/> <path d="M0 0 L-118 -34 M0 0 L-118 34" stroke="url(#lgOuro)" stroke-width="14" stroke-linecap="round"/> <circle cx="-148" cy="-40" r="28" fill="none" stroke="url(#lgOuro)" stroke-width="13"/> <circle cx="-148" cy="40" r="28" fill="none" stroke="url(#lgOuro)" stroke-width="13"/> <circle r="9" fill="#2a211a" stroke="url(#lgOuro)" stroke-width="4"/> </g> <!-- navalha (atrás, apontando pra cima/esquerda) --> <g transform="translate(256 262) rotate(-135)"> <path d="M10 -4 L196 -4 Q206 -4 204 -16 L198 -44 Q196 -50 188 -50 L40 -50 Q14 -50 10 -26 Z" fill="url(#lgAco)"/> <path d="M10 -4 L196 -4" stroke="#7d7a74" stroke-width="3"/> <rect x="-200" y="-12" width="214" height="24" rx="12" fill="url(#lgOuro)"/> <circle cx="10" cy="0" r="10" fill="#2a211a" stroke="url(#lgOuro)" stroke-width="4"/> </g> <!-- rosto: área escura que separa o rosto das ferramentas --> <path d="M150 232 C146 170 186 116 256 114 C326 116 366 170 362 232 L364 262 C364 350 318 410 256 414 C194 410 148 350 148 262 Z" fill="#15110d"/> <!-- cabelo (topete) --> <path d="M164 238 C152 176 190 128 256 126 C318 124 358 162 352 214 C351 224 349 233 347 240 C336 210 310 192 276 194 C252 180 222 182 204 196 C186 206 172 220 164 238 Z" fill="url(#lgOuro)"/> <path d="M196 168 C222 146 272 140 306 156 M210 186 C240 170 284 170 318 184" fill="none" stroke="#15110d" stroke-width="6" stroke-linecap="round" opacity=".55"/> <!-- costeletas + barba --> <path d="M164 236 L182 236 L184 280 C190 308 206 324 222 330 C232 312 244 304 256 308 C268 304 280 312 290 330 C306 324 322 308 328 280 L330 236 L348 236 L350 268 C350 346 310 398 256 402 C202 398 162 346 162 268 Z" fill="url(#lgOuro)"/> <!-- bigode --> <path d="M204 312 C220 290 242 288 256 300 C270 288 292 290 308 312 C292 306 274 308 256 318 C238 308 220 306 204 312 Z" fill="url(#lgOuro)" stroke="#15110d" stroke-width="5" stroke-linejoin="round"/> <!-- boca --> <path d="M240 338 Q256 346 272 338" fill="none" stroke="#15110d" stroke-width="6" stroke-linecap="round"/> </g> </svg></div>
     <h1 id="brandNome">Barbearia</h1>
     <p id="brandSub">Agende seu horário</p>
   </div>

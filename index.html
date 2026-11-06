@@ -3,13 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
-<meta name="theme-color" content="#0d0d0d">
+<meta name="theme-color" content="#100d0b">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Barbearia Nova">
 <title>Barbearia · Atualizado</title>
 <link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -19,22 +22,22 @@
    TOKENS
    ============================================================ */
 :root{
-  --bg:#0d0d0d;
-  --surface:#1a1a19;
-  --surface-2:#232322;
-  --surface-3:#2c2c2a;
-  --text:#ffffff;
-  --text-2:#c3c2b7;
-  --muted:#898781;
-  --grid:#2c2c2a;
-  --baseline:#383835;
-  --hair:rgba(255,255,255,0.10);
+  --bg:#100d0b;
+  --surface:#1b1713;
+  --surface-2:#25201b;
+  --surface-3:#312a22;
+  --text:#fbf6ee;
+  --text-2:#d2c8b8;
+  --muted:#978c7c;
+  --grid:#2e2721;
+  --baseline:#40372d;
+  --hair:rgba(255,236,210,0.10);
 
   /* semântica financeira — usada na UI E nos gráficos */
-  --in:#3987e5;        /* entradas / faturamento  (slot 1) */
-  --in-soft:rgba(57,135,229,0.14);
-  --out:#d95926;       /* saídas / despesas       (slot 2) */
-  --out-soft:rgba(217,89,38,0.14);
+  --in:#d6a84f;        /* entradas / faturamento  (slot 1) — dourado da barbearia */
+  --in-soft:rgba(214,168,79,0.14);
+  --out:#d9503f;       /* saídas / despesas       (slot 2) — vermelho do poste de barbeiro */
+  --out-soft:rgba(217,80,63,0.14);
   --good:#0ca30c;
   --bad:#d03b3b;
   --warn:#fab219;
@@ -161,14 +164,14 @@ input,select,textarea{outline:none}
    ============================================================ */
 .nav{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;justify-content:center;pointer-events:none}
 .nav-in{width:100%;max-width:520px;display:grid;grid-template-columns:1fr 1fr 88px 1fr 1fr;align-items:end;
-  background:rgba(13,13,13,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  background:rgba(16,13,11,.9);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
   border-top:1px solid var(--hair);padding:9px 6px calc(9px + var(--safe-b));pointer-events:auto}
 .nav button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:5px 0;color:var(--muted);font-size:10.5px;font-weight:650;letter-spacing:.3px}
 .nav button svg{width:21px;height:21px}
 .nav button.on{color:var(--text)}
 .nav .fabslot{position:relative;height:1px}
 .fab{position:absolute;left:50%;transform:translate(-50%,-30px);width:66px;height:66px;border-radius:50%;
-  background:var(--text);color:#0d0d0d;display:grid;place-items:center;gap:0;
+  background:var(--text);color:#1a1209;display:grid;place-items:center;gap:0;
   box-shadow:0 8px 26px rgba(0,0,0,.6), 0 0 0 5px var(--bg);transition:transform .12s}
 .fab:active{transform:translate(-50%,-30px) scale(.93)}
 .fab svg{width:26px;height:26px}
@@ -194,8 +197,8 @@ input,select,textarea{outline:none}
 .choice button{border-radius:var(--r-lg);padding:22px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;
   font-size:14px;font-weight:750;letter-spacing:.4px;border:1px solid var(--hair);transition:transform .1s}
 .choice button:active{transform:scale(.96)}
-.choice .c-in{background:var(--in-soft);color:var(--in);border-color:rgba(57,135,229,.35)}
-.choice .c-out{background:var(--out-soft);color:var(--out);border-color:rgba(217,89,38,.35)}
+.choice .c-in{background:var(--in-soft);color:var(--in);border-color:rgba(214,168,79,.35)}
+.choice .c-out{background:var(--out-soft);color:var(--out);border-color:rgba(217,80,63,.35)}
 .choice .circ{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:currentColor}
 .choice .circ svg{width:24px;height:24px;color:var(--surface)}
 .choice .c-alt{grid-column:1 / -1;background:var(--surface-2);color:var(--text-2);flex-direction:row;padding:15px;font-size:13.5px;gap:9px}
@@ -217,7 +220,7 @@ input,select,textarea{outline:none}
 .chip{padding:10px 14px;border-radius:999px;background:var(--surface-2);border:1px solid transparent;
   font-size:13.5px;font-weight:600;color:var(--text-2);transition:.12s}
 .chip:active{transform:scale(.95)}
-.chip.on{background:var(--text);color:#0d0d0d;border-color:var(--text);font-weight:700}
+.chip.on{background:var(--text);color:#1a1209;border-color:var(--text);font-weight:700}
 .chip.on.in{background:var(--in);color:#fff;border-color:var(--in)}
 .chip.on.out{background:var(--out);color:#fff;border-color:var(--out)}
 .chip.quick{background:transparent;border-color:var(--hair);color:var(--text-2);font-variant-numeric:tabular-nums}
@@ -248,7 +251,7 @@ select.inp option{background:var(--surface-2)}
 .btn svg{width:19px;height:19px}
 .btn-in{background:var(--in);color:#fff}
 .btn-out{background:var(--out);color:#fff}
-.btn-primary{background:var(--text);color:#0d0d0d}
+.btn-primary{background:var(--text);color:#1a1209}
 .btn-ghost{background:var(--surface-2);color:var(--text-2);font-weight:650}
 .btn-danger{background:rgba(208,59,59,.14);color:var(--bad);border:1px solid rgba(208,59,59,.35)}
 .btn[disabled]{opacity:.35;pointer-events:none}
@@ -417,7 +420,7 @@ table.dt th{color:var(--muted);font-weight:700;font-size:11px;letter-spacing:.5p
 
 /* faixa de instalação */
 .instalarfaixa{display:flex;align-items:center;gap:11px;background:var(--in-soft);
-  border:1px solid rgba(57,135,229,.35);border-radius:var(--r-lg);padding:13px 14px;margin-bottom:12px;position:relative}
+  border:1px solid rgba(214,168,79,.35);border-radius:var(--r-lg);padding:13px 14px;margin-bottom:12px;position:relative}
 .instalarfaixa .ic{width:34px;height:34px;border-radius:11px;background:var(--in);color:#fff;display:grid;place-items:center;flex:none}
 .instalarfaixa .ic svg{width:17px;height:17px}
 .instalarfaixa .tx{flex:1;min-width:0;font-size:12.5px;line-height:1.4;color:var(--text-2)}
@@ -432,7 +435,7 @@ table.dt th{color:var(--muted);font-weight:700;font-size:11px;letter-spacing:.5p
 .perfilter::-webkit-scrollbar{display:none}
 .perfilter button{flex:none;padding:9px 14px;border-radius:999px;background:var(--surface-2);
   border:1px solid transparent;font-size:13px;font-weight:650;color:var(--text-2);white-space:nowrap}
-.perfilter button.on{background:var(--text);color:#0d0d0d;font-weight:750}
+.perfilter button.on{background:var(--text);color:#1a1209;font-weight:750}
 
 .cmpline{font-size:12.5px;color:var(--muted);margin-top:8px;line-height:1.5}
 .cmpline b{color:var(--text-2);font-weight:700}
@@ -442,13 +445,151 @@ table.dt th{color:var(--muted);font-weight:700;font-size:11px;letter-spacing:.5p
   .hero .value{font-size:32px}
 }
 @media print{ .nav,.fab{display:none} }
+
+/* ============================================================
+   TEMA BARBEARIA — dourado, madeira escura e o poste de barbeiro
+   ============================================================ */
+:root{
+  --ouro:linear-gradient(180deg,#f1d08a 0%,#d6a84f 55%,#b0802f 100%);
+  --ouro-claro:#f1d08a;
+  --tinta:#1a1209;              /* texto escuro sobre dourado */
+  --font-titulo:"Oswald","Bebas Neue","Arial Narrow",Impact,sans-serif;
+  --polo:repeating-linear-gradient(-45deg,#c8342b 0 8px,#f5efe6 8px 16px,#24508f 16px 24px,#f5efe6 24px 32px);
+}
+body{background:radial-gradient(130% 55% at 50% -12%,#2a2018 0,rgba(16,13,11,0) 62%) no-repeat,var(--bg)}
+
+/* títulos com cara de letreiro de barbearia */
+.topbar h1,.sheet h2,#auth .brand h1,#lock h1,#telaInstalar h1{
+  font-family:var(--font-titulo);font-weight:600;letter-spacing:1.2px;text-transform:uppercase}
+.topbar h1{font-size:19px}
+.sheet h2{font-size:19px}
+.card-title,.hero .label,.field > label,.stat .k,.dayhead .d{font-family:var(--font-titulo);font-weight:500;letter-spacing:1.6px}
+
+/* cartão principal: faixa do poste + tesoura de marca d'água */
+.hero{position:relative;overflow:hidden;background:linear-gradient(155deg,#241c15 0%,#17130f 70%);border-color:rgba(214,168,79,.24)}
+.hero::before{content:'';position:absolute;left:0;right:0;top:0;height:4px;background:var(--polo);opacity:.9}
+.hero::after{content:'';position:absolute;right:-18px;bottom:-22px;width:150px;height:150px;opacity:.07;pointer-events:none;
+  background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f1d08a' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='6' cy='6' r='3'/%3E%3Ccircle cx='6' cy='18' r='3'/%3E%3Cpath d='M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12'/%3E%3C/svg%3E")}
+.hero > *{position:relative;z-index:1}
+.card,.stat,.item,.catrow{background:linear-gradient(180deg,#1d1814,#19150f)}
+
+/* botões e destaques em dourado */
+.btn-primary,.btn-in{background:var(--ouro);color:var(--tinta);box-shadow:0 6px 20px rgba(214,168,79,.18)}
+.chip.on,.chip.on.in,.perfilter button.on{background:var(--ouro);color:var(--tinta);border-color:#d6a84f}
+.instalarfaixa .ic,.instalarfaixa .acao{color:var(--tinta)}
+.segmented button.on{background:var(--surface-3);color:var(--ouro-claro)}
+.nav button.on{color:var(--ouro-claro)}
+.fab{background:var(--ouro);color:var(--tinta);
+  box-shadow:0 8px 26px rgba(0,0,0,.6),0 0 0 5px var(--bg),0 0 26px rgba(214,168,79,.35)}
+.fab span{font-family:var(--font-titulo);letter-spacing:1px}
+.pindots i.f{background:#d6a84f;border-color:#d6a84f}
+.amount .num{font-family:var(--font-titulo);font-weight:600;letter-spacing:0}
+.hero .value{font-family:var(--font-titulo);font-weight:600;letter-spacing:0}
+
+/* logo novo (rosto + tesoura + navalha) */
+#auth .brand .logo,#lock .logo{background:none;border:0;padding:0;overflow:hidden;box-shadow:0 12px 32px rgba(0,0,0,.55)}
+#auth .brand .logo{width:92px;height:92px;border-radius:26px}
+#lock .logo{width:84px;height:84px;border-radius:24px}
+#auth .brand .logo img,#lock .logo img{width:100%;height:100%;display:block}
+#auth .brand::after{content:'';display:block;width:84px;height:5px;border-radius:3px;background:var(--polo);margin-top:16px}
+#telaInstalar .mark{width:118px;height:118px;border-radius:30px}
+
+/* ícones ilustrados de serviços, produtos e despesas */
+.ico-tile{--c:#d6a84f;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none;color:var(--c);
+  background:var(--surface-2);background:color-mix(in srgb,var(--c) 17%,transparent);
+  border:1px solid color-mix(in srgb,var(--c) 32%,transparent)}
+.ico-tile svg{width:22px;height:22px}
+.item .ic.ico-tile{width:40px;height:40px;border-radius:12px}
+.item .ic.ico-tile svg{width:21px;height:21px}
+
+/* grade de itens no lançamento: toque e escolha */
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.tile{position:relative;display:flex;flex-direction:column;align-items:center;gap:7px;padding:14px 6px 11px;
+  border-radius:16px;background:var(--surface-2);border:1.5px solid transparent;text-align:center;
+  transition:transform .12s,border-color .15s,background .15s}
+.tile:active{transform:scale(.93)}
+.tile .ico-tile{width:48px;height:48px;border-radius:15px}
+.tile .ico-tile svg{width:26px;height:26px}
+.tile .tn{font-size:12.5px;font-weight:650;color:var(--text-2);line-height:1.2;max-width:100%;
+  overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;word-break:break-word}
+.tile .tp{font-size:12px;font-weight:750;color:var(--ouro-claro);font-variant-numeric:tabular-nums}
+.tile .tp.vazio{color:var(--muted);font-weight:500;font-size:11px}
+.tile.on{border-color:#d6a84f;background:linear-gradient(180deg,rgba(214,168,79,.2),rgba(214,168,79,.05))}
+.tile.on .tn{color:var(--text)}
+.tile.on.out{border-color:var(--out);background:linear-gradient(180deg,rgba(217,80,63,.2),rgba(217,80,63,.05))}
+.tile.on::after{content:'';position:absolute;top:7px;right:7px;width:18px;height:18px;border-radius:50%;
+  background:#d6a84f no-repeat center/12px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1209' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E")}
+.tile.on.out::after{background-color:var(--out)}
+.tile.on .ico-tile{animation:pop .32s ease}
+@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.18) rotate(-7deg)}100%{transform:none}}
+.tile.novo{background:transparent;border:1.5px dashed var(--baseline)}
+.tile.novo .tn{color:var(--ouro-claro)}
+@media (max-width:340px){ .tiles{grid-template-columns:repeat(2,minmax(0,1fr))} }
+
+/* catálogo com ícone e preço em destaque */
+.catrow .pr:not(.vazio){color:var(--ouro-claro);background:rgba(214,168,79,.12);padding:5px 10px;border-radius:999px}
+/* ---------- FOTOS ---------- */
+.foto-th{--c:#d6a84f;position:relative;width:44px;height:44px;border-radius:13px;overflow:hidden;flex:none;
+  display:grid;place-items:center;color:var(--c);background:var(--surface-2);
+  background:color-mix(in srgb,var(--c) 16%,var(--surface-2));box-shadow:inset 0 0 0 1px rgba(255,236,210,.08)}
+.foto-th svg{width:22px;height:22px}
+.foto-th img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.item .foto-th.ic{width:44px;height:44px;border-radius:13px}
+.catrow .foto-th.catth{width:52px;height:52px;border-radius:14px}
+.catrow{padding:10px 14px 10px 10px}
+
+/* card de produto/serviço com foto grande */
+.tile.foto{padding:0;gap:0;overflow:hidden;background:var(--surface-2);align-items:stretch;
+  box-shadow:0 6px 18px rgba(0,0,0,.28)}
+.tile.foto .ft{width:100%;height:auto;aspect-ratio:1/1;border-radius:0}
+.tile.foto .ft svg{width:30px;height:30px}
+.tile.foto .ft::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(10,8,6,.55))}
+.tile.foto .tn{padding:9px 8px 10px;font-size:12.5px;text-align:center}
+.tile.foto .tp{position:absolute;left:7px;top:7px;z-index:2;font-size:11.5px;padding:4px 8px;border-radius:999px;
+  background:rgba(16,13,11,.72);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--ouro-claro);
+  border:1px solid rgba(241,208,138,.25)}
+.tile.foto.on{box-shadow:0 0 0 2px #d6a84f,0 10px 26px rgba(214,168,79,.25);border-color:transparent}
+.tile.foto.on.out{box-shadow:0 0 0 2px var(--out),0 10px 26px rgba(217,80,63,.25)}
+.tile.foto.on .ft img{animation:zoom .35s ease}
+.tile.on::after{z-index:3}
+@keyframes zoom{0%{transform:scale(1)}45%{transform:scale(1.08)}100%{transform:none}}
+
+/* edição de foto do item */
+.fotoedit{display:flex;align-items:center;gap:14px}
+.fotoedit .foto-th.prev{width:96px;height:96px;border-radius:22px}
+.fotoedit .foto-th.prev svg{width:38px;height:38px}
+.fotoedit .acoes{flex:1;min-width:0}
+.fotobtn{margin-top:0;cursor:pointer}
+
+/* ---------- QUANDO FOI? (data do lançamento) ---------- */
+.quando{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.quando > button,.quando .outro{position:relative;display:flex;align-items:center;justify-content:center;gap:5px;
+  padding:11px 3px;border-radius:14px;background:var(--surface-2);border:1px solid transparent;
+  font-size:12.5px;font-weight:650;color:var(--text-2);white-space:nowrap;transition:.12s;overflow:hidden}
+@media (max-width:370px){ .quando > button,.quando .outro{font-size:11.5px} .quando .outro svg{display:none} }
+.quando > button:active,.quando .outro:active{transform:scale(.95)}
+.quando .outro svg{width:15px;height:15px;flex:none}
+.quando .outro input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;border:0}
+.quando .on{background:var(--ouro);color:var(--tinta);border-color:#d6a84f;font-weight:750}
+#qInfo:not(:empty){color:var(--ouro-claro);font-weight:600;font-size:12.5px}
+
+/* ---------- ACABAMENTO SOFISTICADO ---------- */
+.hero{background:linear-gradient(160deg,rgba(28,22,16,.66) 0%,rgba(16,13,11,.9) 72%),
+  url("fotos/fundo.jpg") center/cover,#17130f}
+.hero::after{display:none}
+.card,.stat{box-shadow:0 1px 0 rgba(255,236,210,.04) inset,0 10px 30px rgba(0,0,0,.25)}
+.stat .v{font-family:var(--font-titulo);font-weight:600;letter-spacing:.2px}
+#auth{background:linear-gradient(180deg,rgba(16,13,11,.80),var(--bg) 46%),url("fotos/fundo.jpg") top center/100% auto no-repeat,var(--bg)}
+.sheet-in{background:linear-gradient(180deg,#201a15,#1a1612 120px)}
+.nav-in{border-top-color:rgba(214,168,79,.16)}
+@media (prefers-reduced-motion:reduce){ .tile.on .ico-tile,.tile.foto.on .ft img{animation:none} }
 </style>
 </head>
 <body>
 <!-- ================= TELA DE INSTALAÇÃO ================= -->
 <div id="telaInstalar" class="hidden">
   <div class="box">
-    <div class="mark"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d0d0d'/%3E%3Crect x='14' y='32.7' width='8.1' height='15.3' rx='2.4' fill='%233987e5'/%3E%3Crect x='27.9' y='23.5' width='8.1' height='24.5' rx='2.4' fill='%233987e5'/%3E%3Crect x='41.9' y='14' width='8.1' height='34' rx='2.4' fill='%233987e5'/%3E%3Crect x='14' y='42.6' width='8.1' height='5.4' rx='2.4' fill='%23d95926'/%3E%3C/svg%3E" alt="" id="markImg"></div>
+    <div class="mark"><img src="icons/icon-512.png" alt="" id="markImg"></div>
     <h1>Barbearia</h1>
     <p class="lead">Gestão financeira do seu negócio<br>na palma da mão.</p>
 
@@ -472,7 +613,7 @@ table.dt th{color:var(--muted);font-weight:700;font-size:11px;letter-spacing:.5p
 <!-- ================= AUTENTICAÇÃO ================= -->
 <div id="auth" class="hidden"><div class="box">
   <div class="brand">
-    <div class="logo"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 46 L32 18 L50 46"/></svg></div>
+    <div class="logo"><img src="icons/icon-192.png" alt=""></div>
     <h1 id="authTitle">Entrar na sua conta</h1>
     <p id="authSub">Cada barbearia tem seus próprios dados.</p>
   </div>
@@ -492,7 +633,24 @@ table.dt th{color:var(--muted);font-weight:700;font-size:11px;letter-spacing:.5p
       </div>
     </div>
     <button class="btn btn-primary" type="submit" id="btnEntrar">ENTRAR</button>
+    <div class="switch" style="margin-top:14px"><button type="button" id="lgEsqueci">Esqueci minha senha</button></div>
     <div class="switch">Ainda não tem conta? <button type="button" id="irCadastro">Criar conta</button></div>
+  </form>
+
+  <!-- NOVA SENHA (aberto pelo link do e-mail de recuperação) -->
+  <form id="formNovaSenha" class="hidden" autocomplete="on">
+    <div class="field" style="margin-top:0">
+      <label for="nsSenha">Nova senha</label>
+      <div class="pwwrap">
+        <input class="inp" id="nsSenha" type="password" autocomplete="new-password" placeholder="mínimo 6 caracteres" required>
+        <button type="button" class="eye" data-eye="nsSenha" aria-label="Mostrar senha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      </div>
+    </div>
+    <div class="field">
+      <label for="nsSenha2">Repita a nova senha</label>
+      <input class="inp" id="nsSenha2" type="password" autocomplete="new-password" placeholder="digite de novo" required>
+    </div>
+    <button class="btn btn-primary" type="submit" id="btnNovaSenha">SALVAR NOVA SENHA</button>
   </form>
 
   <!-- CADASTRO -->
@@ -871,7 +1029,7 @@ table.dt th{color:var(--muted);font-weight:700;font-size:11px;letter-spacing:.5p
 
 <!-- ================= TELA DE PIN ================= -->
 <div id="lock" class="hidden">
-  <div class="logo"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 46 L32 18 L50 46"/></svg></div>
+  <div class="logo"><img src="icons/icon-192.png" alt=""></div>
   <h1 id="lockTitle">Barbearia</h1>
   <p id="lockMsg">Digite seu PIN de acesso</p>
   <div class="pindots" id="pinDots"></div>
@@ -1139,6 +1297,47 @@ const Session = (() => {
 /* ------------------------------------------------------------------
    3. NUVEM — configuração e cliente REST do Supabase
 ------------------------------------------------------------------ */
+/**
+ * Converte o erro cru do Supabase (em inglês) numa mensagem em português.
+ * Devolve { msg, codigo } — o código permite reagir (ex.: e-mail já cadastrado → ir pro login).
+ */
+function erroNuvem(json, status) {
+  const cru = String((json && (json.error_description || json.msg || json.message || json.error ||
+    (Array.isArray(json.errors) && json.errors[0] && json.errors[0].message))) || '');
+  const cod = String((json && (json.error_code || json.code)) || '');
+  const t = cru.toLowerCase();
+  const seg = (cru.match(/(\d+)\s*seconds?/i) || [])[1];
+  if (cod === 'user_already_exists' || t.includes('already registered') || t.includes('already exists'))
+    return { codigo: 'ja_cadastrado', msg: 'Este e-mail já tem conta. Toque em "Entrar" e use a sua senha.' };
+  if (cod === 'invalid_credentials' || t.includes('invalid login credentials'))
+    return { codigo: 'credenciais', msg: 'E-mail ou senha incorretos. Se esqueceu a senha, toque em "Esqueci minha senha".' };
+  if (cod === 'email_not_confirmed' || t.includes('email not confirmed'))
+    return { codigo: 'nao_confirmado', msg: 'Seu e-mail ainda não foi confirmado. Abra o e-mail que enviamos (veja o spam também) e depois entre.' };
+  if (cod === 'same_password' || t.includes('different from the old password'))
+    return { codigo: 'mesma_senha', msg: 'A senha nova precisa ser diferente da antiga.' };
+  if (cod === 'weak_password' || t.includes('password should be'))
+    return { codigo: 'senha_fraca', msg: 'Senha fraca. Use pelo menos 6 caracteres.' };
+  if (seg || cod === 'over_email_send_rate_limit' || cod === 'over_request_rate_limit' || t.includes('rate limit'))
+    return { codigo: 'limite', msg: seg ? `Aguarde ${seg} segundos e tente de novo.` : 'Muitas tentativas seguidas. Espere alguns minutos e tente de novo.' };
+  if (cod === 'bad_jwt' || t.includes('jwt') || t.includes('token has expired') || t.includes('invalid token') || (status === 401 && !cru))
+    return { codigo: 'sessao_expirada', msg: 'Seu acesso expirou. Entre de novo com e-mail e senha.' };
+  if (t.includes('invalid email') || t.includes('unable to validate email'))
+    return { codigo: 'email_invalido', msg: 'E-mail inválido. Confira se digitou certinho.' };
+  if (status >= 500) return { codigo: 'servidor', msg: 'O servidor não respondeu agora. Tente de novo em alguns minutos.' };
+  return { codigo: cod || '', msg: cru || ('Erro ' + status) };
+}
+/** fetch que transforma "sem internet" numa mensagem clara. */
+async function fetchNuvem(url, init) {
+  try { return await fetch(url, init); }
+  catch (e) {
+    const semRede = navigator.onLine === false;
+    const err = new Error(semRede
+      ? 'Sem conexão com a internet. Confira o sinal e tente de novo.'
+      : 'Não foi possível falar com o servidor do app agora. Tente de novo em alguns minutos — se continuar, avise quem te passou o app.');
+    err.codigo = semRede ? 'offline' : 'servidor_fora'; throw err;
+  }
+}
+
 const Nuvem = (() => {
   /**
    * Configuração EMBUTIDA no build (arquivo config.js publicado junto do app).
@@ -1186,12 +1385,12 @@ const Nuvem = (() => {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + ((s && s.token) || c.anonKey)
     }, opts.headers || {});
-    const r = await fetch(c.url + caminho, { method: opts.method || 'GET', headers, body: opts.body ? JSON.stringify(opts.body) : undefined });
+    const r = await fetchNuvem(c.url + caminho, { method: opts.method || 'GET', headers, body: opts.body ? JSON.stringify(opts.body) : undefined });
     const txt = await r.text();
     let json = null; try { json = txt ? JSON.parse(txt) : null; } catch (e) { json = txt; }
     if (!r.ok) {
-      const msg = (json && (json.error_description || json.msg || json.message || json.error)) || ('Erro ' + r.status);
-      const err = new Error(msg); err.status = r.status; err.payload = json; throw err;
+      const e = erroNuvem(json, r.status);
+      const err = new Error(e.msg); err.codigo = e.codigo; err.status = r.status; err.payload = json; throw err;
     }
     return json;
   }
@@ -1214,16 +1413,15 @@ const AgendaCloud = (() => {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + ((atual && atual.token) || AGENDA_SUPA.anonKey)
     }, opts.headers || {});
-    const r = await fetch(AGENDA_SUPA.url + caminho, {
+    const r = await fetchNuvem(AGENDA_SUPA.url + caminho, {
       method: opts.method || 'GET', headers,
       body: opts.body !== undefined ? JSON.stringify(opts.body) : undefined
     });
     const txt = await r.text();
     let json = null; try { json = txt ? JSON.parse(txt) : null; } catch (e) { json = txt; }
     if (!r.ok) {
-      const msg = (json && (json.error_description || json.msg || json.message ||
-        (Array.isArray(json.errors) && json.errors[0] && json.errors[0].message))) || ('Erro ' + r.status);
-      const err = new Error(msg); err.status = r.status; err.payload = json; throw err;
+      const e = erroNuvem(json, r.status);
+      const err = new Error(e.msg); err.codigo = e.codigo; err.status = r.status; err.payload = json; throw err;
     }
     return json;
   }
@@ -1283,7 +1481,8 @@ const AgendaCloud = (() => {
     atual = null; try { localStorage.removeItem(KA.sessao); } catch (e) {}
   }
   async function recuperarSenha(email) {
-    await req('/auth/v1/recover', { method: 'POST', body: { email: (email || '').trim().toLowerCase() } });
+    // mesmo fluxo da tela de login: o link do e-mail volta para o app, que abre a tela de senha nova
+    await Recuperacao.enviar(email);
   }
 
   function ativa() { return atual; }
@@ -1293,6 +1492,50 @@ const AgendaCloud = (() => {
   function linkPublico() { return atual && atual.slug ? (SITE_BASE + '/agendar/' + atual.slug) : ''; }
 
   return { req, criar, entrar, restaurar, sair, recuperarSenha, ativa, vinculada, barbeariaId, slug, linkPublico };
+})();
+
+/* ------------------------------------------------------------------
+   3b2. RECUPERAÇÃO DE SENHA
+   1) enviar(email): pede ao Supabase o e-mail com link, voltando para este app.
+   2) Quando o barbeiro toca no link, o app abre com #access_token=...&type=recovery.
+      lerUrl() guarda esse token (só em memória) e limpa a barra de endereço.
+   3) salvarSenha(nova): grava a senha nova com esse token (PUT /auth/v1/user).
+------------------------------------------------------------------ */
+const Recuperacao = (() => {
+  let token = null;
+  function urlDoApp() { return location.origin + location.pathname; }
+  async function enviar(email) {
+    email = (email || '').trim().toLowerCase();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw new Error('E-mail inválido. Confira se digitou certinho.');
+    await AgendaCloud.req('/auth/v1/recover?redirect_to=' + encodeURIComponent(urlDoApp()),
+      { method: 'POST', body: { email } });
+  }
+  /** Lê o retorno do link do e-mail. Devolve 'recuperar', 'link_invalido' ou null. */
+  function lerUrl() {
+    const h = new URLSearchParams((location.hash || '').replace(/^#/, ''));
+    const q = new URLSearchParams(location.search || '');
+    let r = null;
+    if (h.get('type') === 'recovery' && h.get('access_token')) { token = h.get('access_token'); r = 'recuperar'; }
+    else if (h.get('error') || h.get('error_code') || q.get('error_code')) r = 'link_invalido';
+    if (r) { try { history.replaceState(null, '', location.pathname + location.search.replace(/[?&]error[^&]*/g, '')); } catch (e) {} }
+    return r;
+  }
+  async function salvarSenha(nova) {
+    if (!token) throw new Error('Este link já foi usado ou expirou. Peça outro em "Esqueci minha senha".');
+    let r;
+    try {
+      r = await AgendaCloud.req('/auth/v1/user', { method: 'PUT', body: { password: nova },
+        headers: { 'Authorization': 'Bearer ' + token } });
+    } catch (e) {
+      if (e.codigo === 'sessao_expirada') throw new Error('Este link expirou. Volte, toque em "Esqueci minha senha" e use o link novo.');
+      throw e;
+    }
+    // encerra a sessão temporária do link; o barbeiro entra com a senha nova pelo fluxo normal
+    try { await AgendaCloud.req('/auth/v1/logout', { method: 'POST', headers: { 'Authorization': 'Bearer ' + token } }); } catch (e) {}
+    token = null;
+    return r && r.email ? r.email : '';
+  }
+  return { enviar, lerUrl, salvarSenha };
 })();
 
 /* ------------------------------------------------------------------
@@ -1692,6 +1935,172 @@ const Repo = (() => {
      · PRODUTO  → entra no faturamento, NÃO conta como cliente atendido
    O dono edita a lista: nomes e preços são dele, não meus.
 ------------------------------------------------------------------ */
+/* ------------------------------------------------------------------
+   7a. ÍCONES ILUSTRADOS — cada serviço, produto ou despesa ganha um
+   desenho e uma cor, reconhecidos pelo NOME (funciona também para
+   itens que o barbeiro cria: "Coca 2L", "Heineken", "Pomada"…).
+------------------------------------------------------------------ */
+const Icones = (() => {
+  const P = {
+    tesoura:'<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"/>',
+    navalha:'<path d="M10.5 13.5L19 5c1-1 2.4.2 1.6 1.3L13 16z"/><path d="M10.5 13.5L4 20"/><circle cx="11.2" cy="14.2" r="1.2"/>',
+    rosto:'<path d="M6.5 11V9.5a5.5 5.5 0 0 1 11 0V11"/><path d="M6.5 11c0 6 2.5 10 5.5 10s5.5-4 5.5-10c-1.2 1.6-2.4 2.3-3.4 2.2-.6-1-1.3-1.4-2.1-1-.8-.4-1.5 0-2.1 1-1 .1-2.2-.6-3.4-2.2z"/><path d="M6.5 8.5c2-2.6 9-2.6 11 0"/>',
+    maquina:'<rect x="7" y="8" width="10" height="13.5" rx="3"/><path d="M6.5 3.5h11V8h-11z"/><path d="M9 3.5V2M12 3.5V2M15 3.5V2M10 13h4"/>',
+    sobrancelha:'<path d="M3.5 8.5c3-2.5 7-3.2 11-2.2"/><path d="M2 15s3.6-5 10-5 10 5 10 5-3.6 5-10 5-10-5-10-5z"/><circle cx="12" cy="15" r="2.4"/>',
+    gota:'<path d="M12 3s6 6.4 6 11a6 6 0 0 1-12 0c0-4.6 6-11 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/>',
+    brilho:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>',
+    lata:'<path d="M9 3.5h6"/><rect x="7.5" y="5.5" width="9" height="15" rx="2"/><path d="M7.5 9.5h9M7.5 16.5h9"/><path d="M11 12.5h2"/>',
+    energetico:'<path d="M9 3.5h6"/><rect x="7" y="5.5" width="10" height="15" rx="2"/><path d="M12.8 8.5l-2.6 4.1h3.4l-2.6 4.4"/>',
+    garrafa:'<path d="M10 2.5h4V5l1.6 2.6V20a1.8 1.8 0 0 1-1.8 1.8h-3.6A1.8 1.8 0 0 1 8.4 20V7.6L10 5z"/><path d="M8.4 12h7.2M8.4 16h7.2"/>',
+    cerveja:'<path d="M5 8.5h10v10.7a1.8 1.8 0 0 1-1.8 1.8H6.8A1.8 1.8 0 0 1 5 19.2z"/><path d="M15 11h2a2 2 0 0 1 2 2v2.5a2 2 0 0 1-2 2h-2"/><path d="M5 8.5a2.6 2.6 0 0 1 2.4-3.6 3 3 0 0 1 5-.6A2.6 2.6 0 0 1 15 8.5"/><path d="M8.5 12.5v5M11.5 12.5v5"/>',
+    copo:'<path d="M6 7.5h12l-1.4 12.6a1.8 1.8 0 0 1-1.8 1.6H9.2a1.8 1.8 0 0 1-1.8-1.6z"/><path d="M13 7.5l2-5h3"/><path d="M6.6 12.5h10.8"/>',
+    cafe:'<path d="M4 9h12v4.5A5.5 5.5 0 0 1 10.5 19h-1A5.5 5.5 0 0 1 4 13.5z"/><path d="M16 10.5h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 2.5c-.8 1 .8 2-0 3M12 2.5c-.8 1 .8 2 0 3"/><path d="M3 22h14"/>',
+    bone:'<path d="M3.5 15.5a8.5 8.5 0 0 1 17 0z"/><path d="M12 7V5.8"/><path d="M20.5 15.5c1.4 0 2 .8 1.6 1.5-.7 1.1-3.6 1.4-6.1 1.4H3.5v-2.9"/><path d="M12 7c-1.6 2-2.4 5-2.4 8.5"/>',
+    camiseta:'<path d="M8 3L3 6l2 4.2 2.5-1.1V21h9V9.1L19 10.2 21 6l-5-3c-.6 1.6-2 2.6-4 2.6S8.6 4.6 8 3z"/>',
+    bermuda:'<path d="M5.5 3.5h13l1.2 13.3-6.4 1.2L12 11l-1.3 7-6.4-1.2z"/><path d="M5.3 6.5h13.4"/>',
+    calca:'<path d="M6.5 2.5h11l1.3 19h-5L12 10l-1.8 11.5h-5z"/><path d="M6.3 5.5h11.4"/>',
+    pote:'<rect x="4" y="9.5" width="16" height="11" rx="2.5"/><path d="M5 5.5h14v4H5z"/><path d="M8 15h8"/>',
+    pacote:'<path d="M6.5 3h11L16.5 6l1 3v9.5l-1 2.5h-9l-1-2.5V9l1-3z"/><path d="M9 12.5c1.5-1.5 4.5-1.5 6 0"/>',
+    sacola:'<path d="M5 8h14l-1.1 12.4a1.8 1.8 0 0 1-1.8 1.6H7.9a1.8 1.8 0 0 1-1.8-1.6z"/><path d="M9 10V6.5a3 3 0 0 1 6 0V10"/>',
+    caixa:'<path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8M7.5 5.5l9 5"/>',
+    casa:'<path d="M3 11l9-7 9 7"/><path d="M5 9.5V20h14V9.5"/><path d="M10 20v-6h4v6"/>',
+    raio:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
+    wifi:'<path d="M2 8.8a15 15 0 0 1 20 0M5 12.3a10 10 0 0 1 14 0M8.5 15.8a5 5 0 0 1 7 0"/><circle cx="12" cy="19.3" r="1"/>',
+    chave:'<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+    megafone:'<path d="M3 10v4h3l7 5V5L6 10z"/><path d="M16.5 9a4 4 0 0 1 0 6M19 6.5a8 8 0 0 1 0 11"/>',
+    pessoa:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+    documento:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/>',
+    etiqueta:'<path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/>',
+    carro:'<path d="M5 16.5h14M3.5 16.5V12l2-5h13l2 5v4.5"/><circle cx="7.5" cy="17.5" r="2"/><circle cx="16.5" cy="17.5" r="2"/><path d="M3.5 12h17"/>',
+    mais:'<path d="M12 5v14M5 12h14"/>'
+  };
+  const C = { ouro:'#d6a84f', vermelho:'#e5534b', verde:'#4cb860', azul:'#4a9fe3', ambar:'#f0a62a', roxo:'#a283e6',
+    teal:'#2fb5a5', laranja:'#e2803f', cinza:'#ab9f8f', rosa:'#e070a4' };
+  const SERV = [
+    [/corte.*barba|barba.*corte|combo|completo|pacote|dia do noivo/, 'rosto', 'ouro'],
+    [/maquin|pezinho|degrad|disfar|acabam|zero|nevou/, 'maquina', 'ouro'],
+    [/barba|navalh|bigode|cavanhaque|barboterapia/, 'navalha', 'ouro'],
+    [/sobrancel/, 'sobrancelha', 'ouro'],
+    [/pigment|luzes|platin|quimic|tint|relax|progress|selag|alisa|colora/, 'gota', 'roxo'],
+    [/hidrat|lavag|limpeza|mascara|skin|facial|spa/, 'gota', 'teal'],
+    [/corte|cabelo|tesour|infantil|social|tranca|freestyle|desenho/, 'tesoura', 'ouro']
+  ];
+  const PROD = [
+    [/energet|monster|red ?bull|tnt|burn|fusion/, 'energetico', 'verde'],
+    [/refri|coca|guarana|fanta|sprite|soda|pepsi|kuat|schweppes|tonica/, 'lata', 'vermelho'],
+    [/cerveja|chop|long ?neck|heineken|brahma|skol|budweiser|stella|amstel|corona|original|spaten|itaipava|devassa/, 'cerveja', 'ambar'],
+    [/agua|h2o/, 'garrafa', 'azul'],
+    [/suco|refresco|limonada|vitamina/, 'copo', 'laranja'],
+    [/whisky|uisque|vodka|cachaca|gin|drink|dose|caipirinha|licor|vinho/, 'copo', 'roxo'],
+    [/cafe|capuccino|cappuccino|expresso|espresso/, 'cafe', 'laranja'],
+    [/bone|chapeu|touca|gorro|viseira|bucket/, 'bone', 'roxo'],
+    [/bermuda|short/, 'bermuda', 'roxo'],
+    [/calca|jeans|jogger/, 'calca', 'roxo'],
+    [/camis|blusa|regata|polo|moletom|jaqueta|casaco|roupa|vestuario|camiseta/, 'camiseta', 'roxo'],
+    [/meia|cueca|chinelo|tenis|sapato|bolsa|carteira|oculos|relogio|corrente|acessorio/, 'sacola', 'rosa'],
+    [/pomada|cera|gel|oleo|balm|shampoo|xampu|condicion|minoxid|perfum|creme|locao|pos.?barba|tonico|spray|po modelador|cosmetic/, 'pote', 'teal'],
+    [/lamina|gilete|pente|escova|navalh/, 'navalha', 'cinza'],
+    [/bala|chiclete|doce|chocolate|salgad|snack|biscoit|bolach|pipoca|amendoim|bombom|trufa/, 'pacote', 'laranja']
+  ];
+  const SAIDA = [
+    [/produto|estoque|mercador|fornecedor|compra|revenda/, 'caixa', 'laranja'],
+    [/aluguel|condomin|iptu|imovel/, 'casa', 'azul'],
+    [/energia|luz|eletric|cemig|enel|light/, 'raio', 'ambar'],
+    [/agua|copasa|sabesp|saneamento/, 'gota', 'azul'],
+    [/internet|wi.?fi|telefon|celular|plano|streaming|spotify/, 'wifi', 'teal'],
+    [/equipament|maquin|cadeira|ferrament|tesoura|secador|movel/, 'maquina', 'cinza'],
+    [/manutenc|conserto|reforma|reparo|pintura/, 'chave', 'cinza'],
+    [/marketing|propaganda|anuncio|instagram|divulg|panfleto|trafego|impulsion/, 'megafone', 'roxo'],
+    [/salario|funcionar|comiss|barbeiro|ajudante|pro.?labore|diaria|vale/, 'pessoa', 'verde'],
+    [/imposto|taxa|mei|das\b|contador|contab|tarifa|banco|juros|boleto|cartao/, 'documento', 'cinza'],
+    [/limpeza|higiene|toalha|descart|papel/, 'brilho', 'teal'],
+    [/cafe|lanche|alimenta|almoco|refeic|mercado/, 'cafe', 'laranja'],
+    [/transporte|gasolina|combust|uber|onibus|estacion|carro|moto/, 'carro', 'cinza']
+  ];
+  const PADRAO = { servico: ['brilho', 'ouro'], produto: ['sacola', 'rosa'], saida: ['etiqueta', 'cinza'] };
+
+  function norm(s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+  /** Qual desenho/cor combina com o nome. ctx: 'servico' | 'produto' | 'saida' */
+  function chave(nome, ctx) {
+    const n = norm(nome);
+    const lista = ctx === 'saida' ? SAIDA : ctx === 'produto' ? PROD : SERV;
+    let hit = lista.find(r => r[0].test(n));
+    // produto com nome de serviço (ou o contrário) ainda ganha um desenho que faz sentido
+    if (!hit && ctx !== 'saida') hit = (ctx === 'produto' ? SERV : PROD).find(r => r[0].test(n));
+    const [ic, cor] = hit ? [hit[1], hit[2]] : (PADRAO[ctx] || PADRAO.servico);
+    return { ic, cor: C[cor] || cor };
+  }
+  function de(nome, ctx) { const k = chave(nome, ctx); return { svg: svg(k.ic), cor: k.cor, ic: k.ic }; }
+  function svg(ic) {
+    return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[ic] || P.etiqueta}</svg>`;
+  }
+  /** Ladrilho colorido pronto para o HTML. */
+  function tile(nome, ctx, extra) {
+    const i = de(nome, ctx);
+    return `<span class="ico-tile ${extra || ''}" style="--c:${i.cor}">${i.svg}</span>`;
+  }
+  return { de, tile, svg, chave };
+})();
+
+/* ------------------------------------------------------------------
+   7b. FOTOS — cada serviço e produto aparece com uma FOTO de verdade.
+   · Foto padrão: escolhida pelo nome (cerveja, boné, corte…), na pasta fotos/.
+   · Foto própria: o barbeiro fotografa o produto que vende; fica guardada
+     neste aparelho (localStorage), reduzida para ~25 KB.
+   · Despesas continuam com ícone (aluguel, energia… não pedem foto).
+   Se a foto não carregar, o ícone colorido por baixo aparece no lugar.
+------------------------------------------------------------------ */
+const Fotos = (() => {
+  const PADRAO = { tesoura: 'corte', maquina: 'corte', navalha: 'barba', rosto: 'corte-barba', sobrancelha: 'sobrancelha',
+    gota: 'servico', brilho: 'servico', lata: 'refrigerante', energetico: 'energetico', garrafa: 'agua', cerveja: 'cerveja',
+    bone: 'bone', camiseta: 'camiseta', bermuda: 'bermuda', calca: 'calca', pote: 'pomada', sacola: 'outros' };
+  function chave() { const s = Session.ativa(); return 'gtm.fotos.' + (s ? s.barbearia.id : 'anon'); }
+  function minhas() { return jget(chave(), {}) || {}; }
+  function minha(id) { return id ? (minhas()[id] || null) : null; }
+  /** Guarda (ou apaga, com null) a foto própria do item. Devolve false se o celular estiver sem espaço. */
+  function guardar(id, dataUrl) {
+    const m = minhas();
+    if (dataUrl) m[id] = dataUrl; else delete m[id];
+    try { localStorage.setItem(chave(), JSON.stringify(m)); return true; } catch (e) { return false; }
+  }
+  function padrao(nome, ctx) {
+    if (ctx === 'saida') return null;
+    const f = PADRAO[Icones.chave(nome, ctx).ic];
+    return f ? 'fotos/' + f + '.jpg' : null;
+  }
+  function url(nome, ctx, id) { return minha(id) || padrao(nome, ctx); }
+  /** Miniatura redonda/quadrada: ícone por baixo, foto por cima. */
+  function thumb(nome, ctx, id, cls) {
+    const u = url(nome, ctx, id);
+    if (!u) return Icones.tile(nome, ctx, cls);
+    const i = Icones.de(nome, ctx);
+    return `<span class="foto-th ${cls || ''}" style="--c:${i.cor}">${i.svg}<img src="${esc(u)}" alt="" loading="lazy" decoding="async" onerror="this.remove()"></span>`;
+  }
+  /** Reduz a foto da câmera: corte quadrado, 360 px, JPEG. */
+  function reduzir(file, lado) {
+    lado = lado || 360;
+    return new Promise((ok, falha) => {
+      const fr = new FileReader();
+      fr.onerror = () => falha(new Error('Não consegui ler a foto.'));
+      fr.onload = () => {
+        const img = new Image();
+        img.onerror = () => falha(new Error('Esse arquivo não é uma foto.'));
+        img.onload = () => {
+          const m = Math.min(img.width, img.height);
+          const cv = document.createElement('canvas'); cv.width = cv.height = lado;
+          const cx = cv.getContext('2d');
+          cx.imageSmoothingQuality = 'high';
+          cx.drawImage(img, (img.width - m) / 2, (img.height - m) / 2, m, m, 0, 0, lado, lado);
+          ok(cv.toDataURL('image/jpeg', 0.8));
+        };
+        img.src = fr.result;
+      };
+      fr.readAsDataURL(file);
+    });
+  }
+  return { url, padrao, minha, guardar, thumb, reduzir };
+})();
+
 const Catalogo = (() => {
   const SERVICOS_PADRAO = ['Corte', 'Barba', 'Corte + Barba', 'Sobrancelha', 'Outro serviço'];
   const PRODUTOS_PADRAO = ['Refrigerante', 'Energético', 'Água', 'Cerveja',
@@ -2306,7 +2715,7 @@ const UI = (() => {
     return `<table class="dt"><thead><tr><th>Período</th><th>Faturamento</th><th>Despesas</th><th>Resultado</th></tr></thead><tbody>
       ${linhas.map(d => `<tr><td>${esc(d.label)}</td><td>${brl(d.entrada)}</td><td>${brl(d.saida)}</td><td>${brl(d.entrada - d.saida)}</td></tr>`).join('')}</tbody></table>`;
   }
-  function iconeBG(t) { return { up:'rgba(12,163,12,.16)', down:'rgba(208,59,59,.16)', alert:'rgba(250,178,25,.16)', money:'rgba(57,135,229,.16)', card:'rgba(57,135,229,.16)', cut:'rgba(217,89,38,.16)', ticket:'rgba(57,135,229,.16)', info:'var(--surface-3)' }[t] || 'var(--surface-3)'; }
+  function iconeBG(t) { return { up:'rgba(12,163,12,.16)', down:'rgba(208,59,59,.16)', alert:'rgba(250,178,25,.16)', money:'rgba(214,168,79,.16)', card:'rgba(214,168,79,.16)', cut:'rgba(217,80,63,.16)', ticket:'rgba(214,168,79,.16)', info:'var(--surface-3)' }[t] || 'var(--surface-3)'; }
   function iconeFG(t) { return { up:'var(--good)', down:'var(--bad)', alert:'var(--warn)', money:'var(--in)', card:'var(--in)', cut:'var(--out)', ticket:'var(--in)', info:'var(--muted)' }[t] || 'var(--muted)'; }
   function iconeSVG(t) {
     const p = {
@@ -2326,7 +2735,8 @@ const UI = (() => {
   function itemHTML(m) {
     const ent = m.tipo === 'entrada';
     return `<button class="item" data-mov="${esc(m.id)}">
-      <span class="ic ${ent ? 'in' : 'out'}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round">${ent ? '<path d="M12 5v14M5 12h14"/>' : '<path d="M5 12h14"/>'}</svg></span>
+      ${(() => { const ctx = ent ? Model.naturezaDe(m) : 'saida'; const c = Catalogo.achar(m.tipo, m.categoria);
+        return Fotos.thumb(m.categoria, ctx, c && c.id, 'ic'); })()}
       <span class="mid"><span class="t1">${esc(m.categoria)}</span>
         <span class="t2">${esc(m.forma_pagamento)}<i class="sep"></i>${dataCurta(m.data)}<i class="sep"></i>${esc(m.hora || '')}${m.observacao ? '<i class="sep"></i>' + esc(m.observacao) : ''}</span></span>
       <span class="amt ${ent ? 'in' : 'out'}">${ent ? '+' : '−'}${brl(m.valor).replace('R$ ', '')}</span></button>`;
@@ -2473,6 +2883,7 @@ const UI = (() => {
     }
     c.innerHTML = itens.map(i => `
       <button class="catrow" data-item="${esc(i.id)}">
+        ${Fotos.thumb(i.nome, abaCat, i.id, 'catth')}
         <span class="nm">${esc(i.nome)}</span>
         <span class="pr ${i.valor_padrao ? '' : 'vazio'}">${i.valor_padrao ? brl(i.valor_padrao) : 'sem preço'}</span>
         <svg class="ed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
@@ -2700,13 +3111,26 @@ const Forms = (() => {
         ${valoresRapidos(st.tipo).map(v => `<button type="button" class="chip quick" data-q="${v}">${brl(v).replace('R$ ', '')}</button>`).join('')}
       </div>
       ${KEYPAD}
+      <div class="field"><label>Quando foi?</label>
+        <div class="quando" id="quando">
+          <button type="button" data-d="0">Hoje</button>
+          <button type="button" data-d="-1">Ontem</button>
+          <button type="button" data-d="-2">Anteontem</button>
+          <span class="outro" id="qOutro">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="17" rx="2.5"/><path d="M16 2.5v4M8 2.5v4M3 10h18"/></svg>
+            <span id="qOutroTx">Outro dia</span>
+            <input type="date" id="fData" value="${st.data}" max="${hoje()}" aria-label="Escolher outra data">
+          </span>
+        </div>
+        <p class="hint" id="qInfo"></p>
+      </div>
       ${st.tipo === 'entrada' ? `<div class="field"><label>O que foi isso?</label>
         <div class="segmented" id="grupoSel" style="margin-bottom:0">
           <button type="button" data-g="servico">SERVIÇO</button>
           <button type="button" data-g="produto">PRODUTO</button>
         </div></div>` : ''}
       <div class="field"><label id="labCats">${st.tipo === 'entrada' ? 'Serviço' : 'Categoria'}</label>
-        <div class="chips" id="cats"></div>
+        <div class="tiles" id="cats"></div>
         <div class="novoitem hidden" id="novoItemBox">
           <input class="inp" id="niNome" maxlength="40" placeholder="Nome do item">
           <input class="inp" id="niPreco" inputmode="decimal" placeholder="Preço (opcional)">
@@ -2717,10 +3141,7 @@ const Forms = (() => {
         </div></div>
       <div class="field"><label>Forma de pagamento</label>
         <div class="chips" id="pags">${Model.PAGAMENTOS.map(c => `<button type="button" class="chip" data-p="${c}">${c}</button>`).join('')}</div></div>
-      <div class="field"><div class="row2">
-        <div><label for="fData">Data</label><input type="date" class="inp" id="fData" value="${st.data}"></div>
-        <div><label for="fObs">Observação (opcional)</label><input class="inp" id="fObs" maxlength="140" placeholder="ex.: fornecedor" value="${esc(st.obs)}"></div>
-      </div></div>
+      <div class="field"><label for="fObs">Observação (opcional)</label><input class="inp" id="fObs" maxlength="140" placeholder="ex.: fornecedor, nome do cliente" value="${esc(st.obs)}"></div>
       <button class="btn btn-${cor}" id="fSalvar" disabled>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
         ${st.editId ? 'SALVAR ALTERAÇÕES' : (ehAt ? 'REGISTRAR ATENDIMENTO' : (st.tipo === 'entrada' ? 'SALVAR ENTRADA' : 'SALVAR SAÍDA'))}
@@ -2736,14 +3157,26 @@ const Forms = (() => {
       const itens = itensAtuais();
       const lab = el('labCats');
       if (lab) lab.textContent = st.tipo !== 'entrada' ? 'Categoria' : (st.grupo === 'produto' ? 'Produto' : 'Serviço');
-      if (!itens.length) {
-        el('cats').innerHTML = `<button type="button" class="chip novo" data-novo="1">+ Criar o primeiro item</button>`;
-        return;
-      }
+      const ctx = st.tipo === 'entrada' ? (st.grupo || 'servico') : 'saida';
+      const novoTile = rot => `<button type="button" class="tile novo" data-novo="1">
+          <span class="ico-tile">${Icones.svg('mais')}</span><span class="tn">${rot}</span></button>`;
+      if (!itens.length) { el('cats').innerHTML = novoTile('Criar o primeiro item'); return; }
       el('cats').innerHTML = itens.map(c => {
-        const preco = c.valor_padrao ? `<span style="opacity:.65;font-weight:600"> · ${brl(c.valor_padrao).replace('R$ ', '')}</span>` : '';
-        return `<button type="button" class="chip" data-c="${esc(c.nome)}">${esc(c.nome)}${preco}</button>`;
-      }).join('') + `<button type="button" class="chip novo" data-novo="1">+ Novo</button>`;
+        const preco = c.valor_padrao ? brl(c.valor_padrao) : '';
+        if (Fotos.url(c.nome, ctx, c.id)) {
+          // card com foto: preço em etiqueta sobre a imagem
+          return `<button type="button" class="tile foto" data-c="${esc(c.nome)}">
+            ${Fotos.thumb(c.nome, ctx, c.id, 'ft')}
+            ${preco ? `<span class="tp">${preco}</span>` : ''}
+            <span class="tn">${esc(c.nome)}</span>
+          </button>`;
+        }
+        return `<button type="button" class="tile" data-c="${esc(c.nome)}">
+          ${Icones.tile(c.nome, ctx)}
+          <span class="tn">${esc(c.nome)}</span>
+          <span class="tp ${preco ? '' : 'vazio'}">${preco || 'sem preço'}</span>
+        </button>`;
+      }).join('') + novoTile('Novo item');
       pintarChips();
     }
     /** Toca no item → já preenche o preço, sem apagar valor digitado à mão. */
@@ -2812,7 +3245,32 @@ const Forms = (() => {
       const b = e.target.closest('[data-p]'); if (!b) return;
       st.pagamento = b.dataset.p; vibrar(); pintarChips();
     };
-    body.querySelector('#fData').onchange = e => { st.data = e.target.value || hoje(); };
+    /** Data do lançamento: atalhos Hoje/Ontem/Anteontem ou qualquer dia no calendário. */
+    const DIAS_SEM = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
+    function pintarData() {
+      const dif = Math.round((pd(st.data) - pd(hoje())) / 86400000);
+      let atalho = false;
+      body.querySelectorAll('#quando [data-d]').forEach(b => {
+        const on = +b.dataset.d === dif; b.classList.toggle('on', on); if (on) atalho = true;
+      });
+      el('qOutro').classList.toggle('on', !atalho);
+      el('qOutroTx').textContent = atalho ? 'Outro dia' : dataCurta(st.data);
+      el('qInfo').textContent = dif === 0 ? '' :
+        `Vai entrar no dia ${dataCurta(st.data)} (${DIAS_SEM[pd(st.data).getDay()]}), não hoje.`;
+    }
+    body.querySelector('#quando').onclick = e => {
+      const b = e.target.closest('[data-d]'); if (!b) return;
+      st.data = addDias(hoje(), +b.dataset.d); el('fData').value = st.data; vibrar(); pintarData();
+    };
+    const inpData = body.querySelector('#fData');
+    // abre o calendário do celular ao tocar em "Outro dia"
+    el('qOutro').onclick = e => { if (e.target !== inpData && inpData.showPicker) { try { inpData.showPicker(); } catch (er) {} } };
+    inpData.onchange = e => {
+      let v = e.target.value || hoje();
+      if (v > hoje()) { v = hoje(); toast('Não dá para lançar em data futura.', true); }
+      st.data = v; e.target.value = v; pintarData();
+    };
+    pintarData();
     body.querySelector('#fObs').oninput = e => { st.obs = e.target.value; };
     body.querySelector('#fSalvar').onclick = salvar;
     body.querySelector('#fCancelar').onclick = fecharSheets;
@@ -2830,7 +3288,11 @@ const Forms = (() => {
   }
   function pintarChips() {
     const cor = st.tipo === 'entrada' ? 'in' : 'out';
-    document.querySelectorAll('#cats .chip').forEach(c => c.className = 'chip' + (c.dataset.c === st.categoria ? ' on ' + cor : ''));
+    document.querySelectorAll('#cats [data-c]').forEach(c => {
+      c.classList.toggle('on', c.dataset.c === st.categoria);
+      c.classList.toggle('in', c.dataset.c === st.categoria && cor === 'in');
+      c.classList.toggle('out', c.dataset.c === st.categoria && cor === 'out');
+    });
     document.querySelectorAll('#pags .chip').forEach(c => c.className = 'chip' + (c.dataset.p === st.pagamento ? ' on' : ''));
     el('fSalvar').disabled = !(st.cents > 0 && st.categoria);
   }
@@ -2909,19 +3371,60 @@ const Forms = (() => {
         <label for="itPreco">Preço padrão (opcional)</label>
         <input class="inp" id="itPreco" inputmode="decimal" placeholder="ex.: 45,00" value="${novo || !c.valor_padrao ? '' : String(c.valor_padrao).replace('.', ',')}">
         <p class="hint">Deixe em branco se o valor muda toda vez.</p>
+      </div>
+      <div class="field">
+        <label>Foto</label>
+        <div class="fotoedit">
+          <span id="itPrev"></span>
+          <div class="acoes">
+            <label class="btn btn-ghost btn-sm fotobtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+              Tirar ou escolher foto
+              <input type="file" accept="image/*" id="itFoto" hidden>
+            </label>
+            <button type="button" class="disclose" id="itFotoPadrao" style="margin-top:6px">Voltar para a foto padrão</button>
+          </div>
+        </div>
+        <p class="hint">Fotografe o produto que você vende de verdade — a lata, a garrafa, o boné. A foto fica guardada neste celular.</p>
       </div>` : ''}
       <button class="btn btn-primary" id="itSalvar">SALVAR</button>
       <div id="itDelArea">${novo ? '' : '<button class="btn btn-danger btn-sm" id="itExcluir">Remover da lista</button>'}</div>
       <button class="btn btn-ghost btn-sm" id="itFechar">Cancelar</button>`;
 
+    // foto: undefined = não mexeu · string = nova foto · null = voltar para a padrão
+    let fotoNova;
+    function pintarPrev() {
+      if (!el('itPrev')) return;
+      const nome = el('itNome').value.trim() || (c && c.nome) || '';
+      const propria = fotoNova !== undefined ? fotoNova : (c ? Fotos.minha(c.id) : null);
+      const u = propria || Fotos.padrao(nome, grupo || 'servico');
+      const ic = Icones.de(nome, grupo || 'servico');
+      el('itPrev').innerHTML = `<span class="foto-th prev" style="--c:${ic.cor}">${ic.svg}${u ? `<img src="${esc(u)}" alt="" onerror="this.remove()">` : ''}</span>`;
+      el('itFotoPadrao').classList.toggle('hidden', !propria);
+    }
+    if (el('itFoto')) {
+      el('itFoto').onchange = async e => {
+        const f = e.target.files && e.target.files[0]; if (!f) return;
+        try { fotoNova = await Fotos.reduzir(f); pintarPrev(); vibrar(); }
+        catch (er) { toast(er.message, true); }
+        e.target.value = '';
+      };
+      el('itFotoPadrao').onclick = () => { fotoNova = null; pintarPrev(); };
+      el('itNome').addEventListener('input', pintarPrev);
+      pintarPrev();
+    }
     el('itSalvar').onclick = () => {
       const nome = el('itNome').value.trim();
       const preco = el('itPreco') ? el('itPreco').value.replace(/\./g, '').replace(',', '.') : null;
+      let reg;
       try {
-        if (novo) Catalogo.criar({ nome, tipo, grupo, valor_padrao: preco });
-        else Catalogo.atualizar(id, { nome, valor_padrao: preco });
+        if (novo) reg = Catalogo.criar({ nome, tipo, grupo, valor_padrao: preco });
+        else reg = Catalogo.atualizar(id, { nome, valor_padrao: preco }) || c;
       } catch (e) { toast(e.message, true); return; }
-      fecharSheets(); toast('Salvo'); UI.renderCatalogo();
+      if (fotoNova !== undefined && reg && !Fotos.guardar(reg.id, fotoNova)) {
+        toast('Salvo, mas o celular está sem espaço para a foto.', true);
+      } else toast('Salvo');
+      fecharSheets(); UI.renderCatalogo();
     };
     if (el('itExcluir')) el('itExcluir').onclick = () => {
       el('itDelArea').innerHTML = `
@@ -3460,12 +3963,39 @@ const AuthUI = (() => {
     el('nav').classList.remove('hidden');
   }
   function trocar(modo) {
-    const login = modo === 'login';
+    const login = modo === 'login', nova = modo === 'novaSenha';
     el('formLogin').classList.toggle('hidden', !login);
-    el('formCadastro').classList.toggle('hidden', login);
-    el('authTitle').textContent = login ? 'Entrar na sua conta' : 'Criar conta da barbearia';
-    el('authSub').textContent = login ? 'Cada barbearia enxerga somente os próprios dados.' : 'Leva 30 segundos. Seus dados ficam separados dos de qualquer outra barbearia.';
+    el('formCadastro').classList.toggle('hidden', login || nova);
+    el('formNovaSenha').classList.toggle('hidden', !nova);
+    el('authTitle').textContent = nova ? 'Criar nova senha' : login ? 'Entrar na sua conta' : 'Criar conta da barbearia';
+    el('authSub').textContent = nova ? 'Escolha uma senha nova para entrar no app.'
+      : login ? 'Cada barbearia enxerga somente os próprios dados.' : 'Leva 30 segundos. Seus dados ficam separados dos de qualquer outra barbearia.';
     msg('');
+  }
+  /** Envia o e-mail de recuperação; o link volta para este mesmo endereço do app. */
+  async function esqueci(btn) {
+    const email = (el('lgEmail').value || '').trim().toLowerCase();
+    if (!email) { msg('Digite seu e-mail no campo acima e toque de novo em "Esqueci minha senha".'); el('lgEmail').focus(); return; }
+    btn.disabled = true;
+    try {
+      await Recuperacao.enviar(email);
+      msg('Pronto! Se esse e-mail tiver conta, enviamos um link para criar uma senha nova. Confira a caixa de entrada (e o spam).', 'ok');
+    } catch (e) { msg(e.message || 'Não foi possível enviar o e-mail agora.'); }
+    finally { btn.disabled = false; }
+  }
+  async function salvarNovaSenha(btn) {
+    const s1 = el('nsSenha').value, s2 = el('nsSenha2').value;
+    if (s1.length < 6) { msg('A senha precisa de pelo menos 6 caracteres.'); return; }
+    if (s1 !== s2) { msg('As duas senhas não são iguais. Digite de novo.'); return; }
+    btn.disabled = true; const txt = btn.textContent; btn.textContent = 'SALVANDO…';
+    try {
+      const email = await Recuperacao.salvarSenha(s1);
+      trocar('login');
+      if (email) el('lgEmail').value = email;
+      el('lgSenha').value = '';
+      msg('Senha alterada! Agora entre com o seu e-mail e a senha nova.', 'ok');
+    } catch (e) { msg(e.message || 'Não foi possível salvar a senha.'); }
+    finally { btn.disabled = false; btn.textContent = txt; }
   }
   function msg(txt, tipo) {
     el('authMsg').innerHTML = txt ? `<div class="${tipo === 'ok' ? 'ok' : 'err'}">${esc(txt)}</div>` : '';
@@ -3499,10 +4029,18 @@ const AuthUI = (() => {
       }
       esconder();
       await App.aposLogin({ contaNova: true });
-    } catch (e) { msg(e.message || 'Não foi possível criar a conta.'); }
+    } catch (e) {
+      if (e.codigo === 'ja_cadastrado') {
+        // conta já existe (ex.: celular formatado) → leva direto para o login
+        trocar('login');
+        el('lgEmail').value = (d.email || '').trim().toLowerCase();
+        msg('Você já tem conta com este e-mail! É só entrar com a sua senha. Se esqueceu, toque em "Esqueci minha senha".', 'ok');
+        el('lgSenha').focus();
+      } else msg(e.message || 'Não foi possível criar a conta.');
+    }
     finally { btn.disabled = false; btn.textContent = txt; }
   }
-  return { mostrar, esconder, trocar, msg, pintarModo, entrar, cadastrar };
+  return { mostrar, esconder, trocar, msg, pintarModo, entrar, cadastrar, esqueci, salvarNovaSenha };
 })();
 
 /* ------------------------------------------------------------------
@@ -3602,6 +4140,8 @@ function ligarEventos() {
     const i = el(b.dataset.eye); i.type = i.type === 'password' ? 'text' : 'password';
   });
   el('formLogin').onsubmit = e => { e.preventDefault(); AuthUI.entrar(el('lgEmail').value, el('lgSenha').value, el('btnEntrar')); };
+  el('lgEsqueci').onclick = e => AuthUI.esqueci(e.currentTarget);
+  el('formNovaSenha').onsubmit = e => { e.preventDefault(); AuthUI.salvarNovaSenha(el('btnNovaSenha')); };
   el('formCadastro').onsubmit = e => {
     e.preventDefault();
     const tel = el('cdTel').value.trim();
@@ -3957,16 +4497,23 @@ const App = (() => {
     ligarEventos();
     manifesto();
     Instalar.iniciar();
-    sessaoRestaurada = await Auth.restaurar();
+    // Voltou do link "Esqueci minha senha" do e-mail? Mostra a tela de senha nova antes de tudo.
+    const retornoLink = Recuperacao.lerUrl();
+    sessaoRestaurada = retornoLink ? null : await Auth.restaurar();
     // Agenda é independente do login financeiro: tenta restaurar em paralelo,
     // sem bloquear a entrada no app nem falhar o boot se estiver offline.
     AgendaCloud.restaurar().catch(() => null).then(() => { atualizarCardAgendaInicio(); });
+    if (retornoLink) {
+      Instalar.fecharTela(false);
+      if (retornoLink === 'recuperar') AuthUI.mostrar('novaSenha');
+      else { AuthUI.mostrar('login'); AuthUI.msg('Este link de senha expirou ou já foi usado. Digite seu e-mail e toque em "Esqueci minha senha" para receber outro.'); }
+    }
     // Primeira visita pelo link: convida a instalar ANTES de pedir cadastro.
     // Quem já tem sessão vai direto ao app — não atrapalha o dia a dia.
-    if (!sessaoRestaurada && Instalar.mostrarTela()) { /* segue em seguirAposInstalar() */ }
+    else if (!sessaoRestaurada && Instalar.mostrarTela()) { /* segue em seguirAposInstalar() */ }
     else seguirAposInstalar();
     window.__app = { Session, Auth, Repo, Model, Calc, UI, Forms, Demo, Insights, Chart, Nuvem, Contas, Periodos, Cripto, Perfil, App, Pin, AuthUI, Instalar, Catalogo, brlCard, mascaraTelefone, telefoneValido, soDigitos,
-      AgendaCloud, AgendaRepo, AgendaForms };
+      AgendaCloud, AgendaRepo, AgendaForms, Recuperacao, Fotos, Icones };
     window.AuthUI = AuthUI;
     document.dispatchEvent(new Event('app-pronto'));
   }
@@ -3976,9 +4523,8 @@ const App = (() => {
     if (document.querySelector('link[rel="manifest"]')) return;
     try {
       const m = { name: 'Barbearia · Gestão Financeira', short_name: 'Barbearia', start_url: '.',
-        display: 'standalone', background_color: '#0d0d0d', theme_color: '#0d0d0d',
-        icons: [{ src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%230d0d0d'/%3E%3Cpath d='M112 368 L256 144 L400 368' stroke='%233987e5' stroke-width='44' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E",
-          sizes: '512x512', type: 'image/svg+xml', purpose: 'any' }] };
+        display: 'standalone', background_color: '#100d0b', theme_color: '#100d0b',
+        icons: [{ src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' }] };
       const l = document.createElement('link');
       l.rel = 'manifest';
       l.href = URL.createObjectURL(new Blob([JSON.stringify(m)], { type: 'application/manifest+json' }));
