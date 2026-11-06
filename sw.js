@@ -11,7 +11,7 @@
    Sem isso os celulares continuam abrindo a versão antiga do cache.
    ============================================================ */
 
-const CACHE = 'barbearia-v2.5.0';
+const CACHE = 'barbearia-v2.5.1';
 
 const SHELL = [
   './',

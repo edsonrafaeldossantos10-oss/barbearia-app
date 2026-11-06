@@ -1015,7 +1015,7 @@ body{background:radial-gradient(130% 55% at 50% -12%,#2a2018 0,rgba(16,13,11,0) 
     <div class="kv"><span class="k">Atendimentos</span><span class="v" id="cntAt">0</span></div>
     <button class="btn btn-ghost btn-sm" id="btnBackup">Baixar backup (.json)</button>
     <button class="btn btn-ghost btn-sm" id="btnRestore">Restaurar backup</button>
-    <input type="file" id="fileRestore" accept="application/json" class="hidden">
+    <input type="file" id="fileRestore" accept=".json,application/json,text/plain,application/octet-stream" class="hidden">
     <button class="btn btn-ghost btn-sm" id="btnGerarDemo">Carregar dados de demonstração</button>
     <button class="btn btn-danger btn-sm" id="btnLimparDemo">Apagar dados de demonstração</button>
     <button class="btn btn-danger btn-sm" id="btnZerar">Apagar TODOS os lançamentos</button>
@@ -1924,7 +1924,67 @@ const Repo = (() => {
     if (typeof UI !== 'undefined' && UI.render && Session.ativa()) UI.render();
   }
   function pendentes() { return outbox.length; }
-  return { iniciar, encerrar, pronto, listar, obter, inserir, atualizar, remover, substituirTudo,
+  /**
+   * Recupera um backup (.json) SOMANDO ao que já existe — nunca apaga nada.
+   * Na conta da nuvem, envia tudo ao banco na hora; assim a próxima
+   * sincronização não "some" com os dados recuperados.
+   * Se o envio falhar, desfaz a mudança local e avisa (o arquivo continua valendo).
+   */
+  async function importarBackup(novo) {
+    garantir();
+    const s = Session.ativa(), meu = s.barbearia.id, eu = s.usuario.id;
+    const ORDEM = ['categorias', 'clientes', 'atendimentos', 'movimentos'];   // pais antes dos filhos
+    const antes = {}; ORDEM.forEach(t => { antes[t] = cache[t].slice(); });
+    const contagem = {};
+    try {
+      for (const t of ORDEM) {
+        const ids = new Set(cache[t].map(r => r.id));
+        const nomes = t === 'categorias' ? new Set(cache[t].map(c => c.tipo + '|' + c.nome)) : null;
+        const novos = (Array.isArray(novo[t]) ? novo[t] : [])
+          .filter(r => r && r.id && !ids.has(r.id) && !(nomes && nomes.has(r.tipo + '|' + r.nome)))
+          .map(r => ({ ...r, barbearia_id: meu, usuario_id: eu }));
+        contagem[t] = novos.length;
+        if (!novos.length) continue;
+        if (s.driver === 'nuvem') await subirLote(t, novos);
+        cache[t].push(...novos);
+        persistir();
+      }
+    } catch (e) {
+      ORDEM.forEach(t => { cache[t] = antes[t]; }); persistir();
+      throw e;
+    }
+    return contagem;
+  }
+  /** Envia vários registros de uma vez; colunas que o banco não conhece (de versões antigas) são descartadas. */
+  async function subirLote(tabela, regs) {
+    const ignorar = new Set();
+    // o PostgREST exige que todos os itens de um lote tenham as mesmas chaves
+    const grupos = new Map();
+    regs.forEach(r => { const k = Object.keys(r).sort().join(','); if (!grupos.has(k)) grupos.set(k, []); grupos.get(k).push(r); });
+    for (const grupo of grupos.values()) {
+      for (let i = 0; i < grupo.length; i += 200) {
+        const fatia = grupo.slice(i, i + 200);
+        for (let tentativa = 0; ; tentativa++) {
+          const corpo = fatia.map(r => {
+            const c = { ...r }; delete c.barbearia_id; delete c.usuario_id;   // o servidor preenche
+            ignorar.forEach(k => delete c[k]); return c;
+          });
+          try {
+            await Nuvem.req('/rest/v1/' + tabela, { method: 'POST',
+              headers: { Prefer: 'resolution=merge-duplicates,return=minimal' }, body: corpo });
+            break;
+          } catch (e) {
+            const txt = JSON.stringify(e.payload || '') + ' ' + (e.message || '');
+            const col = (txt.match(/Could not find the '([^']+)' column/) || [])[1];
+            if (col && !ignorar.has(col) && tentativa < 25) { ignorar.add(col); continue; }
+            throw e;
+          }
+        }
+      }
+    }
+  }
+
+  return { iniciar, encerrar, pronto, listar, obter, inserir, atualizar, remover, substituirTudo, importarBackup,
     meta, setMeta, exportar, contar, puxar, empurrar, pendentes, TABELAS, carimbar, lote };
 })();
 
@@ -3929,16 +3989,24 @@ const Export = (() => {
   }
   function restaurar(file) {
     const fr = new FileReader();
-    fr.onload = () => {
+    fr.onload = async () => {
+      let novo;
       try {
-        const novo = JSON.parse(fr.result);
+        novo = JSON.parse(fr.result);
         if (!novo || !Array.isArray(novo.movimentos)) throw new Error('formato');
-        // o Repo recarimba tudo com a barbearia da sessão: um backup de outra
-        // conta nunca "traz junto" o tenant de origem
-        Repo.substituirTudo(novo);
-        toast('Backup restaurado nesta conta');
+      } catch (e) { toast('Esse arquivo não é um backup do app.', true); return; }
+      toast('Recuperando backup…');
+      try {
+        // soma ao que já existe e envia para a nuvem; o Repo recarimba tudo com a
+        // barbearia da sessão, então um backup nunca "traz junto" outra conta
+        const n = await Repo.importarBackup(novo);
+        const tot = (n.movimentos || 0) + (n.atendimentos || 0) + (n.clientes || 0) + (n.categorias || 0);
         UI.render();
-      } catch (e) { toast('Arquivo inválido', true); }
+        toast(tot ? `Recuperado: ${n.movimentos || 0} lançamentos, ${n.atendimentos || 0} atendimentos e ${n.clientes || 0} clientes.`
+                  : 'Esse backup já estava todo no app — nada novo para recuperar.');
+      } catch (e) {
+        toast('Não consegui enviar o backup para a nuvem (' + (e.message || 'erro') + '). Nada foi alterado — tente de novo com internet.', true);
+      }
     };
     fr.readAsText(file);
   }
